@@ -1,3 +1,10 @@
+/*
+Rating: ~ 1.9 / 10
+Link: https://open.kattis.com/problems/aboveaverage
+Complexity: O(n)
+Memory: O(1)
+*/
+
 #include <iostream>
 using namespace std;
 

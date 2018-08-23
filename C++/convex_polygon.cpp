@@ -1,3 +1,10 @@
+/*
+Rating: ~ 2.0 / 10
+Link: https://open.kattis.com/problems/convexpolygonarea
+Complexity: O(n) where n is number of points
+Memory: O(n) where n is number of points
+*/
+
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -10,6 +17,7 @@ int main() {
         cin >> num_points;
 
         // need n + 1 space to repeat first point at end of array
+        // 2D array where i is a point and j is x or y coord of that point
         int points[num_points+1][2];
 
         for (int i = 0; i < num_points; i++) {
@@ -30,6 +38,7 @@ int main() {
         // array of points as long as points are visited in either clockwise
         // or counterclockwise order and if first point is repeated at end
         // this essentially calculates sum of area of all triangles in polygon
+        // by treating them as parallelograms and halving the area
         int first_term = 0;
         int second_term = 0;
 

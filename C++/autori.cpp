@@ -1,3 +1,10 @@
+/*
+Rating: ~ 1.2 / 10
+Link: https://open.kattis.com/problems/autori
+Complexity: O(c) where c is number of chars in string
+Memory: O(1)
+*/
+
 #include <iostream>
 #include <sstream>
 #include <string>
