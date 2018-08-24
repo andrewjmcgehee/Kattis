@@ -1,6 +1,13 @@
+/*
+Rating: ~ 4.5 / 10
+Link: https://open.kattis.com/problems/deduplicatingfiles
+Complexity:
+*/
+
 #include <iostream>
 #include <map>
 #include <string>
+
 using namespace std;
 
 // hash function as defined in problem statement
@@ -34,6 +41,8 @@ int main() {
             files[s] += 1;
         }
 
+        // iterates through hashmap twice considering all pairwise relationships
+        // (EVEN identity pairs)
         int collisions = 0;
         for (auto const& k1 : files) {
             string file1 = k1.first;
@@ -42,19 +51,26 @@ int main() {
             for (auto const& k2 : files) {
                 string file2 = k2.first;
                 int num2 = k2.second;
-                // if strings are exactly equal, we don't consider it a hash collision
                 if (file1.compare(file2) != 0) {
                     char hash2 = get_hash(file2);
+                    // if the hashes match and the strings are different then
+                    // the collision occurs with every occurence of each
+                    // duplicate string. Imagine a "rectangle." The area is height
+                    // times the length.
                     if (hash1 == hash2) {
-                        // there n*k collisions when considered in both directions
                         collisions += num1*num2;
                     }
                 }
             }
         }
-        // divided by two because we are only considering pairwise relationships
+        // collisions can be int divided by 2 because the pairwise relationships
+        // can be modeled as an adjacency matrix. the diagonal includes all the
+        // identity pairs (every string is a hash collision with itself) and
+        // each half of the rectangle will be symmetrical because if string a
+        // collides with string b, string b will also collide with string a.
         collisions /= 2;
         cout << files.size() << " " << collisions << '\n';
     }
     return 0;
 }
+

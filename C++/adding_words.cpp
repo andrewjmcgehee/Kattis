@@ -10,6 +10,7 @@ Memory: O(w) where w is number of unique terms in dictionary
 #include <sstream>
 #include <map>
 #include <iterator>
+
 using namespace std;
 
 int main() {

@@ -1,3 +1,10 @@
+/*
+Rating: ~ 3.3 / 10
+Link: https://open.kattis.com/problems/industrialspy
+Complexity: O(k!) where k is number of digits (less than or equal to 7)
+Memory: O(PI(n)) where PI(n) is the function representing number of primes less than n
+*/
+
 #include <algorithm>
 #include <iostream>
 #include <set>
@@ -37,7 +44,7 @@ int main() {
         int len = s.size();
         do {
             for (int j = 1; j <= len; j++) {
-                // we must permute the power set of the string (excluding the null set)
+                // permute all substrings of length 1 or greater
                 sub = s.substr(0, j);
                 stringstream ss;
 

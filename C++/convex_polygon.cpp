@@ -7,6 +7,7 @@ Memory: O(n) where n is number of points
 
 #include <iostream>
 #include <cmath>
+
 using namespace std;
 
 int main() {
