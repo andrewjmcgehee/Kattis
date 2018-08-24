@@ -1,15 +1,15 @@
 /*
 Rating: ~ 3.1 / 10
 Link: https://open.kattis.com/problems/wheresmyinternet
-Complexity: O(Log N) for union find
-Memory:
+Complexity: O(Log N) for union find with path compression
+Memory: O(n) where n is number of disjoint elements
 */
 
 #include <iostream>
 
 using namespace std;
 
-#define MAX 200100
+#define MAX 200001
 
 int parent[MAX];
 
