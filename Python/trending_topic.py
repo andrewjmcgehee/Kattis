@@ -59,10 +59,10 @@ def main():
           break
         # tricky wording here. If we have seen more than 5 words, and we are looking for
         # the top 5, we are done - even if we have only seen one distinct frequency.
-        # (i.e. if we have 6 words that start appear 2 times, and 1 that appears 1 time
+        # (i.e. if we have 6 words that  appear 2 times, and 1 that appears 1 time
         # we only need to print all 6 of the 2's for the top 5. We have seen at least 5
         # of the top occuring words and it does not matter that we havent seen 5 distinct
-        # frequencies
+        # frequencies)
         for word in sorted(trending[key]):
           print("%s %i" % (word, key))
           num_seen += 1
