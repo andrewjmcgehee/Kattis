@@ -1,7 +1,8 @@
 /*
 Rating: ~ 4.5 / 10
 Link: https://open.kattis.com/problems/deduplicatingfiles
-Complexity:
+Complexity: O(N^2) where N is number of files in hash map
+Memory: O(N) where N is number of files in hash map
 */
 
 #include <iostream>

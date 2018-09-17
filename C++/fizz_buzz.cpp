@@ -1,7 +1,7 @@
 /*
 Rating: ~ 1.2 / 10
 Link: https://open.kattis.com/problems/fizzbuzz
-Complexity: O(n) where n in range of numbers
+Complexity: O(N) where N in range of numbers
 Memory: (1)
 */
 

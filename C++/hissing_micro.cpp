@@ -1,7 +1,7 @@
 /*
 Rating: ~ 1.2 / 10
 Link: https://open.kattis.com/problems/hissingmicrophone
-Complexity: O(c) where c is number of chars in word
+Complexity: O(N) where N is number of chars in word
 Memory: O(1)
 */
 

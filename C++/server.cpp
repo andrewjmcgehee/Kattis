@@ -1,7 +1,8 @@
 /*
 Rating: ~ 1.6 / 10
 Link: https://open.kattis.com/problems/server
-Complexity:
+Complexity: O(N) where N is number of tasks
+Memory: O(1)
 */
 
 #include <iostream>

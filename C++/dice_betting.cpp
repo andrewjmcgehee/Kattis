@@ -1,8 +1,8 @@
 /*
 * Rating: ~ 3.0 / 10
 * Link: https://open.kattis.com/problems/dicebetting
-* Complexity: O(n) where n is number of throws
-* Memory: O(n) for memo array
+* Complexity: O(N) where N is number of throws
+* Memory: O(N) for memo array
 */
 
 #include <iostream>
@@ -32,8 +32,8 @@ double probability(int throws, int seen) {
   // DeMorgan's Law
   double new_prob = 1 - old_prob;
 
-  // recursive bit where one represents seeing a new number, and one represents
-  // not seeing one
+  // recursive bit where first call represents not seeing a new number, and second represents
+  // seeing a new number
   double prob = old_prob * probability(throws-1, seen) + new_prob * probability(throws-1, seen+1);
   memo[throws][seen] = prob;
   return prob;

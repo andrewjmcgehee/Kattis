@@ -1,7 +1,7 @@
 /*
 Rating: ~ 2.9 / 10
 Link: https://open.kattis.com/problems/averageshard
-Complexity: O(n) where n is number of CS students
+Complexity: O(N) where N is number of CS students
 Memory: O(1)
 */
 

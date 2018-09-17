@@ -1,8 +1,8 @@
 /*
 Rating: ~ 1.9 / 10
 Link: https://open.kattis.com/problems/aboveaverage
-Complexity: O(n)
-Memory: O(1)
+Complexity: O(N) where N is number of grades
+Memory: O(N) where N is number of grades
 */
 
 #include <iostream>

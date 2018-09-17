@@ -1,7 +1,7 @@
 /*
 Rating: ~ 1.8 / 10
 Link: https://open.kattis.com/problems/mosquito
-Complexity: O(n) where n is number of generations
+Complexity: O(N) where N is number of generations
 Memory: O(1)
 */
 

@@ -1,7 +1,7 @@
 /*
 Rating: ~ 1.6 / 10
 Link: https://open.kattis.com/problems/simonsays
-Complexity: O(n) where n is number of strings
+Complexity: O(N) where N is number of strings
 Memory: O(1)
 */
 

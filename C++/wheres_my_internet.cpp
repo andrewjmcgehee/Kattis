@@ -1,8 +1,8 @@
 /*
 Rating: ~ 3.1 / 10
 Link: https://open.kattis.com/problems/wheresmyinternet
-Complexity: O(Log N) for union find with path compression
-Memory: O(n) where n is number of disjoint elements
+Complexity: O(log(N)) for union find with path compression
+Memory: O(N) where n is number of disjoint elements
 */
 
 #include <iostream>
@@ -46,6 +46,7 @@ int main() {
     if (find(i) != find(0)) {
       cout << i+1 << endl;
       connected = false;
+      break;
     }
   }
 

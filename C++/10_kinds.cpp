@@ -1,8 +1,8 @@
 /*
 Rating: ~ 5.6 / 10
 Link: https://open.kattis.com/problems/10kindsofpeople
-Complexity: O(NK) for an NxK matrix (assuming worst possible find in union find)
-Memory: O(NK) for an NxK matrix
+Complexity: O(N*K) for an NxK matrix (assuming worst possible find in union find)
+Memory: O(N*K) for an NxK matrix
 */
 
 #include <iostream>

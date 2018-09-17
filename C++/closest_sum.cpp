@@ -1,8 +1,8 @@
 /*
-* Rating: ~ 2.9 / 10
-* Link: https://open.kattis.com/problems/closestsums
-* Complexity: O(n^2) where n is number of numbers (pair wise sums)
-* Memory: O(n) for each number
+Rating: ~ 2.9 / 10
+Link: https://open.kattis.com/problems/closestsums
+Complexity: O(N^2) where N is number of numbers (pair wise sums)
+Memory: O(N) for each number
 */
 
 #include <iostream>

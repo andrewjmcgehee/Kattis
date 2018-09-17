@@ -1,9 +1,10 @@
 /*
 Rating: ~ 3.0 / 10
 Link: https://open.kattis.com/problems/wertyu
-Complexity: O(n) where n is number of chars in string
-Memory: O(k) where k is size of given alphabet to be remapped
+Complexity: O(N) where N is number of chars in string
+Memory: O(K) where K is size of given alphabet to be remapped
 */
+
 #include <iostream>
 #include <string>
 #include <vector>

@@ -1,8 +1,8 @@
 /*
 Rating: ~ 3.3 / 10
 Link: https://open.kattis.com/problems/industrialspy
-Complexity: O(k!) where k is number of digits (less than or equal to 7)
-Memory: O(PI(n)) where PI(n) is the function representing number of primes less than n
+Complexity: O(N!) where N is number of digits (N <= 7 so N! is acceptable)
+Memory: O(PI(N)) where PI(N) is the function representing number of primes less than N
 */
 
 #include <algorithm>

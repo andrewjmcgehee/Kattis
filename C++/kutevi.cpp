@@ -1,7 +1,7 @@
 /*
 Rating: ~ 2.8 / 10
 Link: https://open.kattis.com/problems/kutevi
-Complexity: O(n) where n is number of angles
+Complexity: O(N) where N is number of angles
 Memory: O(1)
 */
 

@@ -1,7 +1,7 @@
 /*
 Rating: ~ 1.2 / 10
 Link: https://open.kattis.com/problems/autori
-Complexity: O(c) where c is number of chars in string
+Complexity: O(N) where N is number of chars in string
 Memory: O(1)
 */
 

@@ -1,7 +1,7 @@
 /*
 Rating: ~ 1.4 / 10
 Link: https://open.kattis.com/problems/speedlimit
-Complexity: O(n) where n is number of entries
+Complexity: O(N) where N is number of entries
 Memory: O(1)
 */
 

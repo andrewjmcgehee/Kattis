@@ -1,7 +1,7 @@
 /*
 Rating: ~ 3.2 / 10
 Link: https://open.kattis.com/problems/guess
-Complexity: O(Log N)
+Complexity: O(log(N))
 Memory: O(1)
 */
 

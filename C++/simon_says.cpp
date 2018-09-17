@@ -1,7 +1,7 @@
 /*
 Rating: ~ 2.2 / 10
 Link: https://open.kattis.com/problems/simon
-Complexity: O(n) where n is number of strings to parse
+Complexity: O(N) where N is number of strings to parse
 Memory: O(1)
 */
 

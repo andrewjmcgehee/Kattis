@@ -1,8 +1,8 @@
 /*
 Rating: ~ 2.0 / 10
 Link: https://open.kattis.com/problems/convexpolygonarea
-Complexity: O(n) where n is number of points
-Memory: O(n) where n is number of points
+Complexity: O(N) where N is number of points
+Memory: O(N) where N is number of points
 */
 
 #include <iostream>

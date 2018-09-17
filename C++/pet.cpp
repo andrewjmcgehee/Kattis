@@ -1,7 +1,7 @@
 /*
 Rating: ~ 1.2 / 10
 Link: https://open.kattis.com/problems/pet
-Complexity: O(n) where n is number of students
+Complexity: O(N) where N is number of students
 Memory: O(1)
 */
 

@@ -1,7 +1,7 @@
 /*
 Rating: ~ 1.8 / 10
 Link: https://open.kattis.com/problems/greedilyincreasing
-Complexity: O(n) where n is number of ints in sequence
+Complexity: O(N) where N is number of ints in sequence
 Memory: O(1)
 */
 

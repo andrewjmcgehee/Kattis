@@ -1,8 +1,8 @@
 /*
 Rating: ~ 3.8 / 10
 Link: https://open.kattis.com/problems/addingwords
-Complexity: O(k) where k is number of operands
-Memory: O(w) where w is number of unique terms in dictionary
+Complexity: O(K) where K is number of operands
+Memory: O(N) where N is number of unique terms in dictionary
 */
 
 #include <iostream>
