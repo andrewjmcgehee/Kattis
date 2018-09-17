@@ -1,8 +1,8 @@
 /*
-* Rating: ~ 1.9 / 10
-* Link: https://open.kattis.com/problems/beehives
-* Complexity: O(n^2) where n is number of hives
-* Memory: O(n) where n is number of hives
+Rating: ~ 1.9 / 10
+Link: https://open.kattis.com/problems/beehives
+Complexity: O(N^2) where N is number of hives
+Memory: O(N) where N is number of hives
 */
 
 import java.util.*;

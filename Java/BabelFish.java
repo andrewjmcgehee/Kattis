@@ -1,8 +1,8 @@
 /*
-* Rating: ~ 1.9 / 10
-* Link: https://open.kattis.com/problems/babelfish
-* Complexity: O(n) where n is number of words to be translated
-* Memory: O(n) where n is number of translations
+Rating: ~ 1.9 / 10
+Link: https://open.kattis.com/problems/babelfish
+Complexity: O(N) where N is number of words to be translated
+Memory: O(N) where N is number of translations
 */
 
 import java.util.*;

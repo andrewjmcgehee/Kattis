@@ -1,8 +1,8 @@
 /*
-* Rating: ~ 2.6 / 10
-* Link: https://open.kattis.com/problems/busnumbers
-* Complexity: O(n) where n is range of lowest stop to highest
-* Memory: O(n) where n is max number of stops
+Rating: ~ 2.6 / 10
+Link: https://open.kattis.com/problems/busnumbers
+Complexity: O(N) where N is range of lowest stop to highest
+Memory: O(N) where N is max number of stops
 */
 
 import java.util.*;

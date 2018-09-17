@@ -1,8 +1,8 @@
 /*
 Rating: ~ 5.9 / 10
 Link: https://open.kattis.com/problems/dream
-Complexity: O(n) where n is number of events in given query
-Memory: O(n) where n is number of events
+Complexity: O(N) where N is number of events in given query
+Memory: O(N) where N is number of events
 */
 
 import java.util.*;
