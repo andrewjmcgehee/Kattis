@@ -15,54 +15,54 @@ Memory: O(PI(n)) where PI(n) is the function representing number of primes less 
 using namespace std;
 
 int main() {
-    // boolean where index i indicates if i is prime
-    vector<bool> is_prime(MAX, true);
-    is_prime[0] = false;
-    is_prime[1] = false;
+  // boolean where index i indicates if i is prime
+  vector<bool> is_prime(MAX, true);
+  is_prime[0] = false;
+  is_prime[1] = false;
 
-    // sieve of eratosthenes to calculate primes
-    for (int i = 2; i*i <= MAX; i++) {
-        if (is_prime[i]) {
-            for (int j = i*i; j <= MAX; j += i) {
-                is_prime[j] = false;
-            }
+  // sieve of eratosthenes to calculate primes
+  for (int i = 2; i*i <= MAX; i++) {
+    if (is_prime[i]) {
+      for (int j = i*i; j <= MAX; j += i) {
+        is_prime[j] = false;
+      }
+    }
+  }
+
+  int num_cases;
+  cin >> num_cases;
+
+  for (int i = 0; i < num_cases; i++) {
+    string s;
+    string sub;
+
+    cin >> s;
+    // sorted version of string is guaranteed smallest permutation
+    sort(s.begin(), s.end());
+
+    set<int> primes;
+    int len = s.size();
+    do {
+      for (int j = 1; j <= len; j++) {
+        // permute all substrings of length 1 or greater
+        sub = s.substr(0, j);
+        stringstream ss;
+
+        // hack to convert type
+        long n;
+        ss << sub;
+        ss >> n;
+
+        if (is_prime[n]) {
+          primes.insert(n);
         }
-    }
+      }
+    } while (next_permutation(s.begin(), s.end()));
 
-    int num_cases;
-    cin >> num_cases;
-
-    for (int i = 0; i < num_cases; i++) {
-        string s;
-        string sub;
-
-        cin >> s;
-        // sorted version of string is guaranteed smallest permutation
-        sort(s.begin(), s.end());
-
-        set<int> primes;
-        int len = s.size();
-        do {
-            for (int j = 1; j <= len; j++) {
-                // permute all substrings of length 1 or greater
-                sub = s.substr(0, j);
-                stringstream ss;
-
-                // hack to convert type
-                long n;
-                ss << sub;
-                ss >> n;
-
-                if (is_prime[n]) {
-                    primes.insert(n);
-                }
-            }
-        } while (next_permutation(s.begin(), s.end()));
-
-        // calculating the next permutation is often faster than calculating
-        // all permutations. this method could be implemented on your own, in
-        // a technical interview but std library is fine for now.
-        cout << primes.size() << '\n';
-    }
-    return 0;
+    // calculating the next permutation is often faster than calculating
+    // all permutations. this method could be implemented on your own, in
+    // a technical interview but std library is fine for now.
+    cout << primes.size() << '\n';
+  }
+  return 0;
 }

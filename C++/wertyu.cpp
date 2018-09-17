@@ -8,68 +8,67 @@ Memory: O(k) where k is size of given alphabet to be remapped
 #include <string>
 #include <vector>
 #include <map>
-
 using namespace std;
 
 int main() {
-    // remap the alphabet
-    map <char, char> m;
-    m.insert(pair <char, char> ('2', '1'));
-    m.insert(pair <char, char> ('3', '2'));
-    m.insert(pair <char, char> ('4', '3'));
-    m.insert(pair <char, char> ('5', '4'));
-    m.insert(pair <char, char> ('6', '5'));
-    m.insert(pair <char, char> ('7', '6'));
-    m.insert(pair <char, char> ('8', '7'));
-    m.insert(pair <char, char> ('9', '8'));
-    m.insert(pair <char, char> ('0', '9'));
-    m.insert(pair <char, char> ('-', '0'));
-    m.insert(pair <char, char> ('=', '-'));
-    m.insert(pair <char, char> ('W', 'Q'));
-    m.insert(pair <char, char> ('E', 'W'));
-    m.insert(pair <char, char> ('R', 'E'));
-    m.insert(pair <char, char> ('T', 'R'));
-    m.insert(pair <char, char> ('Y', 'T'));
-    m.insert(pair <char, char> ('U', 'Y'));
-    m.insert(pair <char, char> ('I', 'U'));
-    m.insert(pair <char, char> ('O', 'I'));
-    m.insert(pair <char, char> ('P', 'O'));
-    m.insert(pair <char, char> ('[', 'P'));
-    m.insert(pair <char, char> (']', '['));
-    m.insert(pair <char, char> (92, ']'));
-    m.insert(pair <char, char> ('S', 'A'));
-    m.insert(pair <char, char> ('D', 'S'));
-    m.insert(pair <char, char> ('F', 'D'));
-    m.insert(pair <char, char> ('G', 'F'));
-    m.insert(pair <char, char> ('H', 'G'));
-    m.insert(pair <char, char> ('J', 'H'));
-    m.insert(pair <char, char> ('K', 'J'));
-    m.insert(pair <char, char> ('L', 'K'));
-    m.insert(pair <char, char> (';', 'L'));
-    m.insert(pair <char, char> (39, ';'));
-    m.insert(pair <char, char> ('X', 'Z'));
-    m.insert(pair <char, char> ('C', 'X'));
-    m.insert(pair <char, char> ('V', 'C'));
-    m.insert(pair <char, char> ('B', 'V'));
-    m.insert(pair <char, char> ('N', 'B'));
-    m.insert(pair <char, char> ('M', 'N'));
-    m.insert(pair <char, char> (',', 'M'));
-    m.insert(pair <char, char> ('.', ','));
-    m.insert(pair <char, char> ('/', '.'));
-    m.insert(pair <char, char> (' ', ' '));
+  // remap the alphabet - yikes...
+  map <char, char> m;
+  m.insert({'2', '1'});
+  m.insert({'3', '2'});
+  m.insert({'4', '3'});
+  m.insert({'5', '4'});
+  m.insert({'6', '5'});
+  m.insert({'7', '6'});
+  m.insert({'8', '7'});
+  m.insert({'9', '8'});
+  m.insert({'0', '9'});
+  m.insert({'-', '0'});
+  m.insert({'=', '-'});
+  m.insert({'W', 'Q'});
+  m.insert({'E', 'W'});
+  m.insert({'R', 'E'});
+  m.insert({'T', 'R'});
+  m.insert({'Y', 'T'});
+  m.insert({'U', 'Y'});
+  m.insert({'I', 'U'});
+  m.insert({'O', 'I'});
+  m.insert({'P', 'O'});
+  m.insert({'[', 'P'});
+  m.insert({']', '['});
+  m.insert({92, ']'});
+  m.insert({'S', 'A'});
+  m.insert({'D', 'S'});
+  m.insert({'F', 'D'});
+  m.insert({'G', 'F'});
+  m.insert({'H', 'G'});
+  m.insert({'J', 'H'});
+  m.insert({'K', 'J'});
+  m.insert({'L', 'K'});
+  m.insert({';', 'L'});
+  m.insert({39, ';'});
+  m.insert({'X', 'Z'});
+  m.insert({'C', 'X'});
+  m.insert({'V', 'C'});
+  m.insert({'B', 'V'});
+  m.insert({'N', 'B'});
+  m.insert({'M', 'N'});
+  m.insert({',', 'M'});
+  m.insert({'.', ','});
+  m.insert({'/', '.'});
+  m.insert({' ', ' '});
 
-    string s;
-    while (getline(cin, s)) {
-        vector <char> v;
+  string s;
+  while (getline(cin, s)) {
+      vector <char> v;
 
-        // translate char by char
-        for (int i = 0; i < s.length(); i++) {
-            v.push_back(m[s.at(i)]);
-        }
-        for (int i = 0; i < s.length(); i++) {
-            cout << v[i];
-        }
-        cout << '\n';
-    }
-    return 0;
+      // translate char by char
+      for (int i = 0; i < s.length(); i++) {
+          v.push_back(m[s.at(i)]);
+      }
+      for (int i = 0; i < s.length(); i++) {
+          cout << v[i];
+      }
+      cout << '\n';
+  }
+  return 0;
 }

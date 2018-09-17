@@ -7,14 +7,13 @@ Memory: O(1)
 
 #include <iostream>
 #include <cmath>
-
 using namespace std;
 
 // secret sauce is all in which data type you use and taking the absolute value
 int main() {
-    long long a, b;
-    while (cin >> a >> b) {
-        long long diff = abs(a - b);
-        cout << diff << '\n';
-    }
+  long long a, b;
+  while (cin >> a >> b) {
+    long long diff = abs(a - b);
+    cout << diff << '\n';
+  }
 }
