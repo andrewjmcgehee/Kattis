@@ -1,6 +1,6 @@
 # Rating: ~ 3.7 / 10
 # Link: https://open.kattis.com/problems/kastenlauf
-# Complexity: O(N log(N)) due to union find and where N is number of stops
+# Complexity: O(N^2) due to pair-wise checks where N is number of stops
 # Memory: O(N) where N is number of stops
 
 class UnionFind:
