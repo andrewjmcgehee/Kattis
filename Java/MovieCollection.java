@@ -1,7 +1,7 @@
 /*
 Rating: ~ 5.7 / 10
 Link: https://open.kattis.com/problems/moviecollection
-Complexity: O(
+Complexity: O(K log(N)) for K queries to the fenwick tree
 Memory: O(N) for N movies
 */
 
