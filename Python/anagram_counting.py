@@ -25,9 +25,8 @@ def count_anagrams(numerator, char_map):
 
 def main():
   for line in fileinput.input():
-    line.strip()
     char_map = dict()
-    num_chars = len(line)
+    num_chars = len(line.strip())
     for char in line:
       if char not in char_map:
         char_map[char] = 0
@@ -40,3 +39,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
