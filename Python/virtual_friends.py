@@ -42,11 +42,7 @@ def main():
       # if they are share the same parent, they are already united, and the
       # size of their group is already stored
       if aroot == broot:
-        # check to avoid key errors
-        if aroot in group_sizes:
-          print(group_sizes[aroot])
-        else:
-          print(group_sizes[broot])
+        print(group_sizes[aroot])
         continue
 
       # otherwise unite the two groups
