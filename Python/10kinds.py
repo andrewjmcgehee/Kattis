@@ -3,7 +3,6 @@
 # Complexity: O(N log(N)) due to union find and where N is number of cells in row-major form
 # Memory: O(Rows * Columns) for union find in row-major form
 
-
 # light weight union find representation
 def unite(uf, x, y):
   uf[x] = find(uf, y)
