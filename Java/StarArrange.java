@@ -17,11 +17,11 @@ public class StarArrange {
 
     // only need to go through half of number
     for (int i = 1; i < (n / 2) + 1; i++) {
-      // even number of stars
+      // candidate for same size columns
       if (i != 1 && n % i == 0) {
         System.out.println(i + "," + i);
       }
-      // divisible by odd number or candidate for alternating
+      // candidate for alternating
       if (n % (2*i + 1) == 0 || n % (2*i + 1) == i + 1) {
         System.out.println(i+1 + "," + i);
       }
