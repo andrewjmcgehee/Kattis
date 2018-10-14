@@ -1,8 +1,10 @@
 /*
-Rating: ~ 2.1 / 10
+Rating: ~ 2.1 / 10 (arguably much harder than a 2.1)
 Link: https://open.kattis.com/problems/mailbox
 Complexity: O(NK^2) where N is number of mailboxes and K is number of firecrackers
 Memory: O(NK^2) where N is number of mailboxes and K is number of firecrackers
+
+NOTE: this is not originally my solution. Credit to Mitch Price
 */
 
 import java.util.*;

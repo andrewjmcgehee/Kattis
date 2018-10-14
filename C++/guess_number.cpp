@@ -14,7 +14,7 @@ int main() {
 
   string answer;
   int upper = 1001;
-  int lower = 0;
+  int lower = 1;
 
   // with given info we know a binary search will work in enough tries
   while (!found) {
