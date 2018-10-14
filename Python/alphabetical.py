@@ -11,10 +11,10 @@ def lis(arr):
 
   # use bottom up DP to store max longest increasing subseq ending at
   # index i
-  for i in range (1 , n):
-    for j in range(0 , i):
-      if arr[i] > arr[j] and lis[i] < lis[j] + 1 :
-        lis[i] = lis[j]+1
+  for i in range (1, n):
+    for j in range(0, i):
+      if arr[i] > arr[j]:
+        lis[i] = max(lis[i], lis[j] + 1)
 
   # get max of all increasing subsequences
   return max(lis)
