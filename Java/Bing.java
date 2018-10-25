@@ -8,7 +8,7 @@ Memory: O(N) for N nodes
 import java.util.*;
 import java.io.*;
 
-public class Bing {
+public class bing {
   // modified class to implement Trie that tracks frequency of each node
   static class TrieNode {
     char c;

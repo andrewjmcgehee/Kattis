@@ -7,7 +7,7 @@ Memory: O(1)
 
 import java.util.*;
 
-public class DifferentDistances {
+public class differentdistances {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     // just math

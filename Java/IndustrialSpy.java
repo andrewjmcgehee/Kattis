@@ -8,7 +8,7 @@ Memory: O(PI(K)) where K is maximum number and PI(K) is a function representing 
 import java.util.*;
 import java.io.*;
 
-public class IndustrialSpy2 {
+public class industrialspy {
 
   static int[] sieve(int n) {
     // approximation for maximum number of primes

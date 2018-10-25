@@ -7,7 +7,7 @@ Memory: O(N / K) where N is the size of the input string and K is the division s
 
 import java.util.*;
 
-public class IRepeat {
+public class irepeatmyself {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     int numCases = in.nextInt();

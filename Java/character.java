@@ -8,7 +8,7 @@ Memory: O(1)
 import java.util.*;
 import java.io.*;
 
-public class CharacterDevelopment {
+public class character {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     int n = in.nextInt();

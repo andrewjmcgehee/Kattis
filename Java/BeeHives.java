@@ -7,7 +7,7 @@ Memory: O(N) where N is number of hives
 
 import java.util.*;
 
-public class BeeHives {
+public class beehives {
   static class Node {
     double x;
     double y;

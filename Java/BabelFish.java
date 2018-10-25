@@ -8,7 +8,7 @@ Memory: O(N) where N is number of translations
 import java.util.*;
 import java.io.*;
 
-public class BabelFish {
+public class babelfish {
   // faster I/O - honestly unnecessary
   static class Reader {
     BufferedReader br;

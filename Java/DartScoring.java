@@ -7,7 +7,7 @@ Memory: O(N) for N points
 
 import java.util.*;
 
-public class DartScoring {
+public class dartscoring {
   // simple point class
   static class Point {
     double x;

@@ -7,7 +7,7 @@ Memory: O(N + M) where N and M are array sizes
 
 import java.util.*;
 
-public class Frosh2 {
+public class froshweek2 {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     int n = in.nextInt();

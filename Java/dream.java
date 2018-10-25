@@ -8,7 +8,7 @@ Memory: O(N) where N is number of events
 import java.util.*;
 import java.io.*;
 
-public class AllJustADream {
+public class dream {
   public static void main(String[] args) throws IOException {
     // I / O Optimization for Java
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

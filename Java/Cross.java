@@ -7,7 +7,7 @@ Memory: O(N^2) where N = 9 spaces
 
 import java.util.*;
 
-public class Cross {
+public class cross {
   static class Square {
     int row;
     int col;

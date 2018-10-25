@@ -7,7 +7,7 @@ Memory: O(N) for N words
 
 import java.util.*;
 
-public class CompoundWords {
+public class compoundwords {
   public static void main(String[] args) {
     Scanner in = new Scanner (System.in);
     // get all words

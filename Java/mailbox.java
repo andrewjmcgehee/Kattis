@@ -9,7 +9,7 @@ NOTE: this is not originally my solution. Credit to Mitch Price
 
 import java.util.*;
 
-public class MailboxRecursive {
+public class mailbox {
   static int[][][] memo = new int[11][102][102];
   static int UNKNOWN = -1;
 

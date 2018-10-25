@@ -8,7 +8,7 @@ Memory: O(1)
 import java.util.*;
 import java.text.DecimalFormat;
 
-public class Natrij {
+public class natrij {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     DecimalFormat df = new DecimalFormat("00");

@@ -8,7 +8,7 @@ Memory: O(1)
 import java.util.Scanner;
 
 // uses Stirling's approximation
-public class HowManyDigits {
+public class howmanydigits {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     while (in.hasNext()) {

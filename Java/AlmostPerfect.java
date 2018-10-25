@@ -7,7 +7,7 @@ Memory: O(PI(N)) where PI(N) is a function of number of prime factors
 
 import java.util.*;
 
-public class AlmostPerfect {
+public class almostperfect {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     while (in.hasNext()) {

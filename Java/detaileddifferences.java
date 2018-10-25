@@ -8,7 +8,7 @@ Memory: O(1)
 
 import java.util.*;
 
-public class DetailedDifference {
+public class detaileddifferences {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     int numTests = in.nextInt();

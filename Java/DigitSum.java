@@ -7,7 +7,7 @@ Memory: O(1) because the memo array is not dependent on size of N
 
 import java.util.Scanner;
 
-public class DigitSum {
+public class digitsum {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     int numCases = in.nextInt();

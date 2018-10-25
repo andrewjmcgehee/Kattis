@@ -7,7 +7,7 @@ Memory: O(N) for N values
 
 import java.util.*;
 
-public class PermutedArithmeticSequence {
+public class permutedarithmeticsequence {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     // test cases

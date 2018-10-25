@@ -7,7 +7,7 @@ Memory: O(1)
 
 import java.util.Scanner;
 
-public class Quadrant {
+public class quadrant {
   public static void main(String[] args) {
     Scanner io = new Scanner(System.in);
     int x = io.nextInt();

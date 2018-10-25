@@ -8,7 +8,7 @@ Memory: O(N) for N board tiles
 import java.util.*;
 import java.io.*;
 
-public class SettlersOfCatan {
+public class settlers2 {
 
   static final int RINGS = 60;
   static int[][] grid = new int[2*RINGS-1][2*RINGS-1];

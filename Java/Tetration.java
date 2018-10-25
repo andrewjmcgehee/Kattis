@@ -7,7 +7,7 @@ Memory: O(1)
 
 import java.util.Scanner;
 
-public class Tetration {
+public class tetration {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     double x = in.nextDouble();

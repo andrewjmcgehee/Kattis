@@ -8,7 +8,7 @@ Memory: O(N) for N characters in big int
 import java.util.*;
 import java.io.*;
 
-public class SimpleAddition {
+public class simpleaddition {
   public static void main(String[] args) throws IOException {
     // fast I/O
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

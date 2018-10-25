@@ -8,13 +8,14 @@ Memory: O(N) for N movies
 import java.util.*;
 import java.io.*;
 
-public class MovieCollection {
+public class moviecollection {
   // fenwick tree to support efficient range updates
   static void update(int[] fenwickTree, int i, int val) {
     if (i >= fenwickTree.length) {
       return;
     }
     fenwickTree[i] += val;
+    // gets children by adding least significant bit
     i += (-i & i);
     update(fenwickTree, i, val);
   }

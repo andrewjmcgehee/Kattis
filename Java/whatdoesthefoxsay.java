@@ -7,7 +7,7 @@ Memory: O(N) for N definitions
 
 import java.util.*;
 
-public class FoxSay {
+public class whatdoesthefoxsay {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
 

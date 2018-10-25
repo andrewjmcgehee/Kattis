@@ -9,7 +9,7 @@ Memory: O(N) where N is number of files
 import java.util.*;
 import java.io.*;
 
-public class DedupFiles {
+public class deduplicatingfiles {
   // hash function as described in problem
   static char getHash(String s) {
     char c = (char) 0;

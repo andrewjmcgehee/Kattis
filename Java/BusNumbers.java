@@ -7,7 +7,7 @@ Memory: O(N) where N is max number of stops
 
 import java.util.*;
 
-public class BusNumbers {
+public class busnumbers {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     int n = in.nextInt();

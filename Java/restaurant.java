@@ -8,7 +8,7 @@ Memory: O(K) where K is the number of queries
 import java.util.*;
 import java.io.*;
 
-public class WorkingAtRestaurant {
+public class restaurant {
   public static void main(String[] args) throws IOException {
     // fast I/O
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

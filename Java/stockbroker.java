@@ -7,7 +7,7 @@ Memory: O(1)
 
 import java.util.*;
 
-public class DaydreamingBroker {
+public class stockbroker {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     int n = in.nextInt();

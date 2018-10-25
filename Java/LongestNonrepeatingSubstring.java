@@ -5,7 +5,7 @@ This is a solution to the common DP problem for finding
 the longest non-repeating substring within a string.
 */
 
-public class LogestNonrepeatingSubstring {
+public class logestnonrepeatingsubstring {
   public int longestNonrepeating(String s) {
     int SIZE_OF_ALPHABET = 256;
     int[] lastSeen = new int[SIZE_OF_ALPHABET];

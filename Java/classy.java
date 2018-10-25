@@ -7,7 +7,7 @@ Memory: O(N) where N is number of people
 
 import java.util.*;
 
-public class ClassyProblem {
+public class classy {
   // to complete this problem we must create our own comparable class
   // upper adds a 0, middle adds a 1, and lower adds a 2
   static class Person implements Comparable<Person> {
