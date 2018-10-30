@@ -1,5 +1,5 @@
 /*
-Rating: 3.8
+Rating: ~ 3.8 / 10
 Link: https://open.kattis.com/problems/supercomputer
 Complexity: O(sqrt(N)) where N is number of bits (due to square root decomposition)
 Memory: O(N) where N is number of bits

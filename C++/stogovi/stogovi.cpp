@@ -1,3 +1,10 @@
+/*
+Rating: ~ 5.6 / 10
+Link: https://open.kattis.com/problems/stogovi
+Complexity: O(
+Memory: O(
+*/
+
 #include <cstdio>
 #include <vector>
 using namespace std;

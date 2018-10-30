@@ -1,8 +1,8 @@
 /*
-* Rating: ~ 3.0 / 10
-* Link: https://open.kattis.com/problems/dicebetting
-* Complexity: O(N) where N is number of throws
-* Memory: O(N) for memo array
+Rating: ~ 3.0 / 10
+Link: https://open.kattis.com/problems/dicebetting
+Complexity: O(N) where N is number of throws
+Memory: O(N) for memo array
 */
 
 #include <iostream>
