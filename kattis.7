@@ -1,0 +1,17 @@
+.\" man page for kattis
+.\" Contact ajm0045@auburn.edu to correct errors or typos
+.TH man 8 "30 Oct 2018" "1.0" "kattis man page"
+.SH NAME
+kattis \- open.kattis.com test case automation
+.SH SYNOPSIS
+kattis [PROBLEM-ID] [LANGUAGE-EXTENSION]
+.SH DESCRIPTION
+kattis is a command line tool for automating test cases from open.kattis.com. It downloads all the test cases for a given problem id, creates a file with some starter boilerplate based on the language extension, and generates a script to compile and run your code against the test cases, if any.
+.SH OPTIONS
+kattis does not take any options. However, you must pass in the kattis problem id and the extension of the programming language you wish to use. Current supported languages: C++, Java, Python2, Python3
+.SH SEE ALSO
+curl, grep
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Andrew McGehee (ajm0045@auburn.edu)
