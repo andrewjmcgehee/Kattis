@@ -1,6 +1,13 @@
-import sys
+# Rating: ~ 1.2 / 10
+# Link: https://open.kattis.com/problems/timeloop
+# Complexity: O(N) for N loops
+# Memory: O(1)
 
-n = int(sys.stdin.readline());
+def main():
+  n = int(input());
+  # trivial for loop
+  for i in range(n):
+    print(str(i+1), 'Abracadabra')
 
-for i in range(n):
-    sys.stdout.write(str(i + 1) + ' Abracadabra\n')
+if __name__ == '__main__':
+  main()
