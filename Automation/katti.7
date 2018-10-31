@@ -1,0 +1,22 @@
+.\" man page for katti
+.\" Contact ajm0045@auburn.edu to correct errors or typos
+.TH man 7 "30 Oct 2018" "1.0" "katti man page"
+.SH NAME
+katti \- open.kattis.com test case automation
+.SH SYNOPSIS
+katti [ -g problem-id | -r | -p ]
+.SH DESCRIPTION
+katti is a command line tool for automating test cases from open.kattis.com. It downloads all the test cases for a given problem id, creates a file with some starter boilerplate based on the language extension, and generates a script to compile and run your code against the test cases, if any.
+.SH OPTIONS
+.IP \-g=GET 
+Download all the sample inputs for a given kattis problem and create a file with boilerplate code for the solution.
+.IP \-r=RUN 
+Compile the code with the appropriate file name and run all the test cases, if any.
+.IP \-p=POST 
+Submit the code with the appropriate file name to kattis.
+.SH SEE ALSO
+curl, grep, python3
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Andrew McGehee (ajm0045@auburn.edu)
