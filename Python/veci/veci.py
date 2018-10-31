@@ -1,28 +1,26 @@
-num = list(str(input()))
-num = num[::-1]
-remainder = None
-stem = None
-# All digit characters less than 'A'
-MAX = 'A'
+# Rating: ~ 1.8 / 10
+# Link: https://open.kattis.com/problems/veci
+# Complexity: O(N!) for N digits
+# Memory: O(N!) for N digits (could be reduced with iterator)
 
-for x in range(len(num)-1):
-    if num[x+1] < num[x]:
-        swap = MAX
-        location = None
-        for i, v in enumerate(num[:x+1]):
-            if v > num[x+1] and v < swap:
-                swap = v
-                location = i
+import itertools
 
-        num[x+1], num[location] = num[location], num[x+1]
-        remainder = num[:x+1]
-        stem = num[x+1:]
-        stem = stem[::-1]
-        break
+def main():
+  num = input()
+  # integer value
+  a = int(num)
+  # generate all permutations of number - max 6 digits
+  perms = [''.join(x) for x in sorted(itertools.permutations(num))]
+  for i in perms:
+    # find first greater than
+    if int(i) > a:
+      print(i)
+      return
+  # found none
+  print(0)
 
-if remainder:
-    remainder.sort()
-    stem.extend(remainder)
-    print(''.join(stem))
-else:
-    print(0)
+if __name__ == '__main__':
+  main()
+
+
+
