@@ -11,7 +11,7 @@ def find(uf, x):
   if uf[x] == x:
     return x
   else:
-    uf[x] = find(uf[x])
+    uf[x] = find(uf, uf[x])
   return uf[x]
 
 
