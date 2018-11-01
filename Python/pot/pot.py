@@ -1,10 +1,18 @@
-from sys import stdin, stdout
+# Rating: ~ 1.3 / 10
+# Link: https://open.kattis.com/problems/pot
+# Complexity: O(NK) for N strings and K characters in string representation of number
+# Memory: O(1)
 
-test_cases = int(stdin.readline());
-result = 0
+from sys import stdin
 
-for line in stdin:
+def main():
+  ws = input()
+  result = 0
+  for line in stdin:
     line = line.strip()
+    # raise num up to second to last char up to last char
     result += int(line[:-1])**int(line[-1])
+  print(result))
 
-stdout.write(str(result) + '\n')
+if __name__ == '__main__':
+  main()
