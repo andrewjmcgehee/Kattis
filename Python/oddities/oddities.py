@@ -1,10 +1,18 @@
-from sys import stdin, stdout
+# Rating: ~ 1.3 / 10
+# Link: https://open.kattis.com/problems/oddities
+# Complexity: O(N) for N numbers
+# Memory: O(1)
 
-n = int(stdin.readline().strip())
+def main():
+  n = int(input())
 
-for i in range(n):
-    x = int(stdin.readline().strip())
-    if x % 2 == 0:
-        stdout.write(str(x) + ' is even\n')
-    else:
-        stdout.write(str(x) + ' is odd\n')
+  for i in range(n):
+    x = int(input())
+    # bitwise even check
+    if x & 1 == 0:
+      print(x, ' is even')
+      continue
+    print(x, ' is odd')
+
+if __name__ == '__main__':
+  main()

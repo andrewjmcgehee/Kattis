@@ -1,33 +1,41 @@
-ins = input()
-while ins != '0':
-    ins = [int(i) for i in ins.split()]
-    key_len = ins[0]
-    key = ins[1:]
+# Rating: ~ 2.4 / 10
+# Link: https://open.kattis.com/problems/permutationencryption
+# Complexity: O(N) for N characters in string
+# Memory: O(N) for N characters in string
 
+def main():
+  while True:
+    line = [int(i) for i in input().split()]
+    if line[0] == 0:
+      break
+
+    # get key
+    key_len = line[0]
+    key = line[1:]
+    # compensate for 1 indexing
     for i in range(len(key)):
-        key[i] -= 1
+      key[i] -= 1
 
-    message = input()
+    # make string mutable
+    message = list(input())
     length = len(message)
-    padding = key_len - length % key_len
-    if length % key_len != 0:
-        message += (' ' * padding)
+    # pad with spaces at the end to make key fit evenly
+    while length % key_len != 0:
+      message.append(' ')
+      length += 1
 
-    length = len(message)
-    num_parts = length//key_len
-    parts = []
-
+    # number of discrete sections
+    num_parts = length // key_len
+    ans = []
     for i in range(num_parts):
-        parts.append(message[key_len*i:key_len*(i+1)])
+      # get a single part
+      part = message[key_len*i:key_len*(i+1)]
+      encrypted = []
+      for index in key:
+        # get the character at the shifted index
+        encrypted.append(part[index])
+      ans.append(''.join(encrypted))
+    print('\'%s\'' % ''.join(ans))
 
-    for i in range(len(parts)):
-        copy = ''
-        for index in key:
-            copy += parts[i][index]
-        parts[i] = copy
-
-    encrypted = "'"
-    encrypted += ''.join(parts)
-    encrypted += "'"
-    print(encrypted)
-    ins = input()
+if __name__ == '__main__':
+  main()
