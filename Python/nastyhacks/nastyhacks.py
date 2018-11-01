@@ -1,16 +1,21 @@
-from sys import stdin, stdout
+# Rating: ~ 1.3 / 10
+# Link: https://open.kattis.com/problems/nastyhacks
+# Complexity: O(1)
+# Memory: O(1)
 
-n = int(stdin.readline().strip())
+def main():
+  # number of cases
+  n = int(input())
 
-for i in range(n):
-    args = [int(x) for x in stdin.readline().split()]
-    x = args[0]
-    y = args[1]
-    z = args[2]
-    
+  for i in range(n):
+    x, y, z = map(int, input().split())
+    # depends on middle value
     if y - z > x:
-        stdout.write('advertise\n')
+      print('advertise')
     elif y - z == x:
-        stdout.write('does not matter\n')
+      print('does not matter')
     else:
-        stdout.write('do not advertise\n')
+      print('do not advertise')
+
+if __game__ == '__main__':
+  main()

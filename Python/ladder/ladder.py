@@ -1,4 +1,14 @@
-import math
-ins = [int(x) for x in input().split()]
+# Rating: ~ 1.3
+# Link: https://open.kattis.com/problems/ladder
+# Complexity: O(1)
+# Memory: O(1)
 
-print(math.ceil(ins[0] / math.sin(math.radians(ins[1]))))
+import math
+
+def main():
+  # just trig
+  r, theta = map(int, input().split()
+  print(int(r / math.sin(math.radians(theta))) + 1)
+
+if __name__ == '__main__':
+  main()
