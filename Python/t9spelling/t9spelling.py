@@ -1,4 +1,10 @@
+# Rating: ~ 1.9 / 10
+# Link: https://open.kattis.com/problems/t9spelling
+# Complexity: O(N) for N characters
+# Memory: O(N) for N characters
+
 def main():
+  # nasty map that maps each character to its respective keypad sequence
   table = {
     'a': '2',
     'b': '22',
@@ -33,14 +39,17 @@ def main():
   for test in range(t):
     ans = []
     text = input()
+    # always safe to add first char
     ans.append(table[text[0]])
     prev = ans[0]
     for i in range(1, len(text)):
       char = table[text[i]]
+      # check previous character to know if space needed
       if char[0] == prev[0]:
         ans.append(' ')
       ans.append(char)
       prev = char
+    # handle output
     print("Case #%i: %s" % (test+1, ''.join(ans)))
 
 if __name__ == '__main__':
