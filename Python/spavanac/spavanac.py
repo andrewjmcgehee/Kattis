@@ -1,12 +1,21 @@
-ins = [int(i) for i in input().split()]
+# Rating: ~ 1.3 / 10
+# Link: https://open.kattis.com/problems/spavanac
+# Complexity: O(
+# Memory: O(
 
-ins[1] -= 45
+def main():
+  h, m = map(int, input().split())
+  # subtract 45 minutes
+  m -= 45
 
-if ins[1] < 0:
-    ins[1] += 60
-    ins[0] -= 1
-    if ins[0] < 0:
-        ins[0] = 23
+  # borrow an hour
+  if m < 0:
+    m += 60
+    h -= 1
+    # borrow a day
+    if h < 0:
+      h = 23
+  print(h, m)
 
-ins = [str(i) for i in ins]
-print(' '.join(ins))
+if __name__ == '__main__':
+  main()
