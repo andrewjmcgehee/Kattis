@@ -1,19 +1,31 @@
-items = int(input())
+# Rating: ~ 1.6 / 10
+# Link: https://open.kattis.com/problems/synchronizinglists
+# Complexity: O(N) for N numbers
+# Memory: O(N) for N numbers
 
-while items != 0:
+def main():
+  while True:
+    n = int(input())
+    if n == 0:
+      break
+    # lists
     a = []
     b = []
-    for i in range(items):
-        a.append(int(input()))
-    for i in range(items):
-        b.append(int(input()))
+    for i in range(n):
+      a.append(int(input()))
+    for i in range(n):
+      b.append(int(input()))
+    # sort lists
     c = sorted(a)
     d = sorted(b)
+    # stores numbers by their new order
     table = dict()
-    for i in range(items):
-        table[c[i]] = d[i]
-    for i in range(items):
-        print(table[a[i]])
-
+    for i in range(n):
+      table[c[i]] = d[i]
+    # print them out in their order
+    for i in range(n):
+      print(table[a[i]])
     print()
-    items = int(input())
+
+if __name__ == '__main__':
+  main()
