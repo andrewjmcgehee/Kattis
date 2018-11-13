@@ -482,12 +482,13 @@ def confirm_submission(problem, lang, files, mainclass):
     if input()[0].lower() != "y":
       print("Aborting...")
       sys.exit(0)
+    print()
 
 
 def report_login_status(response):
   status = response.status_code
   if status == 200 and verbose:
-    print("Login Status: 200")
+    print("Login Status: 200\n")
     return
   elif status != 200:
     print("Login Failed")
@@ -499,13 +500,12 @@ def report_login_status(response):
       else:
         print("Status Code:", status)
     sys.exit(0)
-  print()
 
 
 def report_submission_status(response):
   status = response.status_code
   if status == 200 and verbose:
-    print("Submission Status: 200")
+    print("Submission Status: 200\n")
     return
   elif status != 200:
     print("Submit Failed")
@@ -517,7 +517,6 @@ def report_submission_status(response):
       else:
         print("Status Code:", status)
     sys.exit(0)
-  print()
 
 
 def get_config():
