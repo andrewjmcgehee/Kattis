@@ -46,7 +46,6 @@ int main() {
     if (find(i) != find(0)) {
       cout << i+1 << endl;
       connected = false;
-      break;
     }
   }
 
