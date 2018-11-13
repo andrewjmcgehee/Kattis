@@ -55,7 +55,7 @@ _SUBMIT_URL = "https://open.kattis.com/submit"
 _STATUS_URL = "https://open.kattis.com/submissions/"
 
 # maximum number of times to check a submissions status
-MAX_SUBMISSION_CHECKS = 10
+MAX_SUBMISSION_CHECKS = 30
 
 """
 Gets the a problem's rating and sample inputs from kattis
@@ -260,7 +260,7 @@ def run_compiler(file_name, extension):
     # compile the code
     if verbose:
       print("Compiling %s..." % file_name + extension)
-    os.system("g++ %s" % file_name + extension)
+    os.system("g++ -std=c++11 %s" % file_name + extension)
     return ["./a.out"]
   if extension == ".java":
     # check existence of javac compiler
@@ -445,7 +445,7 @@ def check_submission_status(submission_id):
         print("Runtime: %s" % runtime.text)
         return
       else:
-        time.sleep(2)
+        time.sleep(1)
         i += 1
 
 def submit(cookies, problem, lang, files, mainclass=""):
