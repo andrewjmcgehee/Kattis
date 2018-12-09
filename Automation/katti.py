@@ -110,7 +110,7 @@ def get(problem_id):
     write_boilerplate(problem_id, extension, rating)
     os.chdir("..")
   else:
-    os.system("mkdir -p" % problem_id)
+    os.system("mkdir -p %s" % problem_id)
     os.system("unzip -q samples.zip -d %s" % problem_id)
     os.system("rm samples.zip")
     os.chdir(problem_id)
@@ -259,7 +259,7 @@ def run_compiler(file_name, extension):
       return None
     # compile the code
     if verbose:
-      print("Compiling %s..." % file_name + extension)
+      print("Compiling %s..." % (file_name + extension))
     os.system("g++ -std=c++11 %s" % file_name + extension)
     return ["./a.out"]
   if extension == ".java":
