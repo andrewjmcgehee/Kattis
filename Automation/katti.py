@@ -55,7 +55,7 @@ _SUBMIT_URL = "https://open.kattis.com/submit"
 _STATUS_URL = "https://open.kattis.com/submissions/"
 
 # maximum number of times to check a submissions status
-MAX_SUBMISSION_CHECKS = 30
+MAX_SUBMISSION_CHECKS = 60
 
 """
 Gets the a problem's rating and sample inputs from kattis
@@ -429,6 +429,8 @@ def check_submission_status(submission_id):
       status = set(status["class"])
       runtime = soup.find("td", class_=re.compile("runtime"))
       if "accepted" in status:
+        accepted = soup.find_all("span", class_=re.compile("accepted"))
+        print("Test Cases: " + ("+" * len(accepted)))
         print("PASSED")
         print("Runtime: %s" % runtime.text)
         return
@@ -439,13 +441,16 @@ def check_submission_status(submission_id):
         num_cases = cases[0]["title"]
         num_cases = re.findall("[0-9]+/[0-9]+", num_cases)
         num_cases = num_cases[0].split("/")[-1]
+        print("Test Cases: " + ("+" * len(accepted)) + "-")
         print("FAILED")
         print("Reason:", reason.text)
         print("Failed Test Case: %i/%s" % (len(accepted)+1, num_cases))
         print("Runtime: %s" % runtime.text)
         return
       else:
-        time.sleep(1)
+        accepted = soup.find_all("span", class_=re.compile("accepted"))
+        print("Test Cases: " + ("+" * len(accepted)), end="\r")
+        time.sleep(0.3)
         i += 1
 
 def submit(cookies, problem, lang, files, mainclass=""):
