@@ -29,7 +29,7 @@ def main():
   dx = [-1, 1, 0, 0]
   dy = [0, 0, -1, 1]
 
-  # scalar to modifie dx and dy
+  # scalar to modify dx and dy
   eps = 1000
 
   # set the precision of the algorithm here
