@@ -430,7 +430,15 @@ def check_submission_status(submission_id):
       runtime = soup.find("td", class_=re.compile("runtime"))
       if "accepted" in status:
         accepted = soup.find_all("span", class_=re.compile("accepted"))
-        print("Test Cases: " + ("+" * len(accepted)))
+        if len(accepted) > 47:
+          print("Test Cases: "
+                + ("+" * 47)
+                + " plus "
+                + str(len(accepted) - 47)
+                + " more"
+          )
+        else:
+          print("Test Cases: " + ("+" * len(accepted)))
         print("PASSED")
         print("Runtime: %s" % runtime.text)
         return
@@ -441,7 +449,13 @@ def check_submission_status(submission_id):
         num_cases = cases[0]["title"]
         num_cases = re.findall("[0-9]+/[0-9]+", num_cases)
         num_cases = num_cases[0].split("/")[-1]
-        print("Test Cases: " + ("+" * len(accepted)) + "-")
+        if len(accepted) > 46:
+          print("Test Cases: "
+                + ("+" * 44)
+                + "..."
+          )
+        else:
+          print("Test Cases: " + ("+" * len(accepted)) + "-")
         print("FAILED")
         print("Reason:", reason.text)
         print("Failed Test Case: %i/%s" % (len(accepted)+1, num_cases))
@@ -449,8 +463,16 @@ def check_submission_status(submission_id):
         return
       else:
         accepted = soup.find_all("span", class_=re.compile("accepted"))
-        print("Test Cases: " + ("+" * len(accepted)), end="\r")
-        time.sleep(0.3)
+        if len(accepted) > 47:
+          print("Test Cases: "
+                + ("+" * 47)
+                + " plus "
+                + str(len(accepted) - 47)
+                + " more", end='\r'
+          )
+        else:
+          print("Test Cases: " + ("+" * len(accepted)), end='\r')
+        time.sleep(0.5)
         i += 1
 
 def submit(cookies, problem, lang, files, mainclass=""):
@@ -564,15 +586,19 @@ def parse_config(config):
     sys.exit(0)
   return (username, token)
 
+def usage_msg():
+  return '''\
+katti [-g <problem-id>] [-r] [-p] [-h] [-v]
+'''
 
 def main():
   global verbose
   # add command line args
-  arg_parser = argparse.ArgumentParser()
-  arg_parser.add_argument("-g", "--get", metavar="problem-id", help="get a kattis problem")
+  arg_parser = argparse.ArgumentParser(usage=usage_msg())
+  arg_parser.add_argument("-g", "--get", metavar="<problem-id>", help="get a kattis problem by its problem id")
   arg_parser.add_argument("-r", "--run", help="run the test cases for a given problem", action="store_true")
   arg_parser.add_argument("-p", "--post", help="submit a kattis problem", action="store_true")
-  arg_parser.add_argument("-v", "--verbose", help="make output verbose", action="store_true")
+  arg_parser.add_argument("-v", "--verbose", help="receive verbose outputs", action="store_true")
   args = arg_parser.parse_args()
 
   verbose = args.verbose
