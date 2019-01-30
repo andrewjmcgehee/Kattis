@@ -21,7 +21,7 @@ NOTE: Python 3 is required and "python3" must be linked.
 ```
 $ mv katti.py /usr/local/bin
 ```
-2. Login to Kattis and download your person .kattisrc file from:
+2. Login to Kattis and download or copy and paste your personal .kattisrc file from:
 ```
 https://icpc.kattis.com/download/kattisrc
 ```
