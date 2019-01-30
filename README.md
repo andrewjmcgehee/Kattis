@@ -10,3 +10,33 @@ or expected outputs those will be included in the directory. All files that are 
 snippet which I find helpful or interesting.
 
 NOTE: Ratings listed in solutions are tentative. They constantly change and update as new submissions are made.
+
+# Installation of Katti Automation (Mac / Linux)
+
+To install the Katti command line tool, simply download the katti.py file  and follow these steps.
+
+NOTE: Python 3 is required and "python3" must be linked
+
+1. Move the katti.py file into your local binaries with:
+```
+$ mv katti.py /usr/local/bin
+```
+2. Login to Kattis and download your person .kattisrc file from:
+```
+https://icpc.kattis.com/download/kattisrc
+```
+3. Move your .kattisrc to your home directory:
+```
+$ mv .kattisrc ~/
+```
+4. Alias "katti" in your .bashrc / .zshrc file:
+```
+alias katti="/usr/local/bin/python3 /usr/local/bin/katti.py"
+```
+5. Source your rc file:
+```
+$ source .zshrc
+```
+```
+$ source .bashrc
+```
