@@ -15,7 +15,7 @@ NOTE: Ratings listed in solutions are tentative. They constantly change and upda
 
 To install the Katti command line tool, simply download the katti.py file  and follow these steps.
 
-NOTE: Python 3 is required and "python3" must be linked
+NOTE: Python 3 is required and "python3" must be linked.
 
 1. Move the katti.py file into your local binaries with:
 ```
