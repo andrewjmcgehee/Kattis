@@ -627,6 +627,8 @@ def get_stats():
   ratings = pool.map(get_numeric_rating, problem_ids)
   pr = (None, 0)
   avg = sum(ratings) / len(solved)
+  pool.close()
+  pool.join()
 
   cpp_num = 0
   cpp_denom = 0
