@@ -1,4 +1,5 @@
 import argparse
+from bisect import bisect
 import configparser
 from datetime import datetime
 import json
@@ -457,8 +458,11 @@ def check_submission_status(submission_file, submission_id):
           print("Test Cases: " + ("+" * len(accepted)))
         print("PASSED")
         print("Runtime: %s" % runtime.text)
-        if submission_file not in user_conf["solved"]:
-          user_conf["solved"].append(submission_file)
+        bin_search_index = bisect(user_conf["solved"], submission_file)
+        if bin_search_index == 0:
+          user_conf["solved"].insert(0, submission_file)
+        elif user_conf["solved"][bin_search_index-1] != submission_file:
+          user_conf["solved"].insert(bin_search_index, submission_file)
         modified = True
         break
       elif "rejected" in status:
