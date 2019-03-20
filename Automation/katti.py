@@ -498,7 +498,7 @@ def check_submission_status(submission_file, submission_id):
         time.sleep(0.5)
         i += 1
   dt = str(datetime.now()).split(".")[0]
-  user_conf["history"].insert(0, dt + "\t" + submission_file)
+  user_conf["history"].insert(0, dt + " " + submission_file)
   while len(user_conf["history"]) > user_conf["history_size"]:
     user_conf["history"].pop()
   modified = True
@@ -699,20 +699,26 @@ def get_history():
   if len(user_conf["history"]) == 0:
     print("Your submission history is empty")
     return
-  for submission in user_conf["history"]:
-    print(submission)
+  print()
+  print(" #    | YYYY-MM-DD HH:MM:SS | SUBMISSION")
+  print("-----------------------------------------------------")
+  for i, submission in enumerate(user_conf["history"], 1):
+    d, t, sub = submission.split(" ")
+    print(" %-4i | %s %s | %-24s" % (i, d, t, sub))
+  print()
 
 
 def set_history_size(size):
   global modified
-  print("NOTE:")
-  print("  - setting the history size is destructive")
-  print("  - the history will immediately shrink to the given size")
-  print("  - setting the history size to 0 effectively clears your history")
-  print()
-  ans = input("Do you wish to continue? (Y/N): ")
-  if ans.lower() not in {"y", "yes"}:
-    return
+  if size < user_conf["history_size"]:
+    print("NOTE:")
+    print("  - setting the history size is destructive")
+    print("  - the history will immediately shrink from %i to %i" % (user_conf["history_size"], size))
+    print("  - setting the history size to 0 effectively clears your history")
+    print()
+    ans = input("Do you wish to continue? (Y/N): ")
+    if ans.lower() not in {"y", "yes"}:
+      return
   user_conf["history_size"] = size
   while len(user_conf["history"]) > size:
     user_conf["history"].pop()
