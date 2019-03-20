@@ -756,7 +756,7 @@ def main():
   arg_parser.add_argument("-v", "--verbose", help="receive verbose outputs", action="store_true")
   arg_parser.add_argument("--stats", help="get kattis stats if possible", action="store_true")
   arg_parser.add_argument("--history", help="see your 50 most recent kattis submissions", action="store_true")
-  arg_parser.add_argument("--history_size", metavar="<size>", help="set history size with a number and query history size with ?")
+  arg_parser.add_argument("--history_size", metavar="<size>", help="set history size with a number and query history size with -1")
   args = arg_parser.parse_args()
 
   verbose = args.verbose
