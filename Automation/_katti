@@ -2,5 +2,5 @@
 
 function _katti {
   _arguments \
-    '1: :(-h --help -g --get -r --run -p --post -v --verbose --stats --history --history_size)'
+    '*: :(-h --help -g --get -r --run -p --post -v --verbose --stats --history --history_size)'
 }
