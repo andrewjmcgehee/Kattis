@@ -622,7 +622,8 @@ def get_stats():
     problem_id = problem.split(".")[0]
     problem_ids.append(problem_id)
 
-  pool = mp.Pool(processes=4)
+  # can change to what works best for you
+  pool = mp.Pool(processes=64)
   ratings = pool.map(get_numeric_rating, problem_ids)
   pr = (None, 0)
   avg = sum(ratings) / len(solved)
