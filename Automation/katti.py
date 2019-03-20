@@ -697,7 +697,10 @@ def get_numeric_rating(problem_id):
 
 def get_history():
   if len(user_conf["history"]) == 0:
-    print("Your submission history is empty")
+    if user_conf["history_size"] == 0:
+      print("You currently aren't tracking your submission history because your history size is 0")
+    else:
+      print("Your submission history is empty")
     return
   print()
   print(" #    | YYYY-MM-DD HH:MM:SS | SUBMISSION")
@@ -726,10 +729,7 @@ def set_history_size(size):
 
 
 def get_history_size():
-  if "history_size" in user_conf:
-    print(user_conf["history_size"])
-  print("Tracking submission history requires that the root kattis directory is set with 'katti --set_root'")
-  print("Aborting...")
+  print(user_conf["history_size"])
 
 
 def handle_history_size(size):
