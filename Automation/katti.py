@@ -622,13 +622,17 @@ def get_stats():
     problem_id = problem.split(".")[0]
     problem_ids.append(problem_id)
 
+  ratings =[]
   pool = mp.Pool(processes=128)
   print("Getting updated stats...")
-  ratings = pool.map(get_numeric_rating, problem_ids)
-  pr = (None, 0)
-  avg = sum(ratings) / len(solved)
+  for i, rating in enumerate(pool.imap(get_numeric_rating, problem_ids)):
+    print("\rStatus: [" + "%-40s" % ("█" * int(40 * i / len(solved))) + "] %.1f%%" % (100 * i / len(solved)), end="")
+    ratings.append(rating)
+  print("\rStatus: [%-40s" % ("█" * 40) + "] 100.0%")
   pool.close()
   pool.join()
+  pr = (None, 0)
+  avg = sum(ratings) / len(solved)
 
   cpp_num = 0
   cpp_denom = 0
