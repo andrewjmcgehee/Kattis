@@ -457,7 +457,8 @@ def check_submission_status(submission_file, submission_id):
           print("Test Cases: " + ("+" * len(accepted)))
         print("PASSED")
         print("Runtime: %s" % runtime.text)
-        user_conf["solved"][submission_file] = True
+        if submission_file not in user_conf["solved"]:
+          user_conf["solved"].append(submission_file)
         modified = True
         break
       elif "rejected" in status:
@@ -492,11 +493,11 @@ def check_submission_status(submission_file, submission_id):
           print("Test Cases: " + ("+" * len(accepted)), end='\r')
         time.sleep(0.5)
         i += 1
-    dt = str(datetime.now()).split(".")[0]
-    user_conf["history"].insert(0, dt + "\t" + submission_file)
-    while len(user_conf["history"]) > user_conf["history_size"]:
-      user_conf["history"].pop()
-    modified = True
+  dt = str(datetime.now()).split(".")[0]
+  user_conf["history"].insert(0, dt + "\t" + submission_file)
+  while len(user_conf["history"]) > user_conf["history_size"]:
+    user_conf["history"].pop()
+  modified = True
 
 
 def submit(cookies, problem, lang, files, mainclass=""):
@@ -615,7 +616,7 @@ def get_stats():
   if len(user_conf["solved"]) == 0:
     print("You haven't solved any problems yet!")
     return
-  solved = list(user_conf["solved"].keys())
+  solved = user_conf["solved"]
 
   problem_ids = []
   for problem in solved:
@@ -700,10 +701,6 @@ def get_history():
 
 def set_history_size(size):
   global modified
-  if os.geteuid() != 0:
-    print("NOTE: Requires root access to update config file")
-    os.execvp("sudo", ["sudo", "python3"] + sys.argv)
-    return
   print("NOTE:")
   print("  - setting the history size is destructive")
   print("  - the history will immediately shrink to the given size")
@@ -720,7 +717,7 @@ def set_history_size(size):
 
 def get_history_size():
   if "history_size" in user_conf:
-    return user_conf["history_size"]
+    print(user_conf["history_size"])
   print("Tracking submission history requires that the root kattis directory is set with 'katti --set_root'")
   print("Aborting...")
 
@@ -761,11 +758,11 @@ def main():
 
   verbose = args.verbose
 
-  if os.path.exists("/etc/katti.json"):
-    user_conf = json.load(open("/etc/katti.json", "r"))
+  if os.path.exists("/usr/local/etc/katti.json"):
+    user_conf = json.load(open("/usr/local/etc/katti.json", "r"))
   else:
     user_conf = {
-      "solved": dict(),
+      "solved": [],
       "history": [],
       "history_size": DEFAULT_HIST_SIZE
     }
@@ -786,8 +783,9 @@ def main():
     print("usage:", usage_msg())
 
   if modified:
-    write_string = "import os\nimport json\nwith open('/etc/katti.json', 'w') as f:\n\tf.write(json.dumps(%s))" % str(user_conf)
-    os.execvp("sudo", ["sudo", "python3", "-c", write_string])
+    with open("/usr/local/etc/katti.json", "w") as f:
+      f.write(json.dumps(user_conf))
+      f.close()
 
 if __name__ == "__main__":
   main()
