@@ -17,9 +17,9 @@ To install the Katti command line tool, simply download the katti.py file  and f
 
 NOTE: Python 3 is required and "python3" must be linked.
 
-1. Move the katti.py file into your local binaries with:
+1. Move the katti.py file into your local opt directory with:
 ```
-$ mv katti.py /usr/local/bin
+$ mv katti.py /usr/local/opt
 ```
 2. Login to Kattis and download or copy and paste your personal .kattisrc file from:
 ```
@@ -27,16 +27,46 @@ https://icpc.kattis.com/download/kattisrc
 ```
 3. Move your .kattisrc to your home directory:
 ```
-$ mv .kattisrc ~/
+$ mv .kattisrc $HOME
 ```
-4. Alias "katti" in your .bashrc / .zshrc file:
+4. Create a simple executable shell script which your OS can find in your $PATH:
 ```
-alias katti="/usr/local/bin/python3 /usr/local/bin/katti.py"
+$ echo 'python3 /usr/local/opt/katti.py "$@"' > /usr/local/bin/katti; chmod +x /usr/local/bin/katti 
 ```
 5. Source your rc file:
+#### Zsh or Oh-My-Zsh
 ```
 $ source .zshrc
 ```
+#### Bash
 ```
 $ source .bashrc
 ```
+
+## Oh-My-Zsh Completions
+
+If you would like zsh or oh-my-zsh to complete katti's options for you, follow these steps.
+Otherwise it is safe to discard the "_katti" file.
+
+1. Locate or create one of the following directories:
+#### Zsh
+```
+$ mkdir -v /usr/local/share/zsh/functions
+```
+#### Oh-My-Zsh
+```
+$ mkdir -v $HOME/.oh-my-zsh/completions
+```
+2. Make sure that one of the directories in step 1 is in your $FPATH:
+```
+$ print -rl -- $FPATH
+```
+3. If not, add this to your .zshrc file:
+```
+fpath=($fpath <your_directory_here>)
+```
+4. Move the "_katti" compdef file into the directory from step 1 with:
+```
+$ mv _katti <your_directory_here>
+```
+5. Launch a new terminal session

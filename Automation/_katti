@@ -1,0 +1,6 @@
+#compdef _katti /usr/local/bin/katti
+
+function _katti {
+  _arguments \
+    '1: :(-h --help -g --get -r --run -p --post -v --verbose --stats --history --history_size)'
+}
