@@ -1,8 +1,10 @@
 import argparse
 import configparser
+from datetime import datetime
+import json
+import multiprocessing as mp
 import os
 import re
-import subprocess
 import sys
 import time
 
@@ -35,6 +37,7 @@ verbose = False
 
 # supported programming languages
 _suported_langs = {
+  "cpp": ".cpp",
   "c++": ".cpp",
   "java": ".java",
   "python": ".py"
@@ -57,6 +60,15 @@ _STATUS_URL = "https://open.kattis.com/submissions/"
 # maximum number of times to check a submissions status
 MAX_SUBMISSION_CHECKS = 60
 
+# default size of submission history
+DEFAULT_HIST_SIZE = 100
+
+# user config file
+user_conf = None
+
+# user conf modified
+modified = False
+
 """
 Gets the a problem's rating and sample inputs from kattis
 
@@ -73,9 +85,7 @@ def get(problem_id):
     print("Language \"%s\" not suported..." % language)
 
   # make GET call for problem rating
-  r = requests.get("https://open.kattis.com/problems/" + problem_id)
-  search = re.findall("Difficulty:[ </>a-z]*[0-9]\.[0-9]", r.text)[0]
-  rating = search.split('>')[-1]
+  rating = get_problem_rating(problem_id)
 
   # make GET call for samples zip file
   if verbose:
@@ -117,6 +127,11 @@ def get(problem_id):
     write_boilerplate(problem_id, extension, rating)
     os.chdir("..")
 
+def get_problem_rating(problem_id):
+  r = requests.get("https://open.kattis.com/problems/" + problem_id)
+  search = re.findall("Difficulty:[ </>a-z]*[0-9]\.[0-9]", r.text)[0]
+  rating = search.split('>')[-1]
+  return rating
 
 """
 Opens and writes basic boilerplate to a file based on file type
@@ -405,10 +420,11 @@ def post():
   print(plain_text_response)
 
   submission_id = plain_text_response.split()[-1].rstrip(".")
-  check_submission_status(submission_id)
+  check_submission_status(problem + extension, submission_id)
 
 
-def check_submission_status(submission_id):
+def check_submission_status(submission_file, submission_id):
+  global modified
   print("Awaiting result...\n")
   config = get_config()
   try:
@@ -441,7 +457,9 @@ def check_submission_status(submission_id):
           print("Test Cases: " + ("+" * len(accepted)))
         print("PASSED")
         print("Runtime: %s" % runtime.text)
-        return
+        user_conf["solved"][submission_file] = True
+        modified = True
+        break
       elif "rejected" in status:
         accepted = soup.find_all("span", class_=re.compile("accepted"))
         reason = soup.find("span", class_="rejected")
@@ -460,7 +478,7 @@ def check_submission_status(submission_id):
         print("Reason:", reason.text)
         print("Failed Test Case: %i/%s" % (len(accepted)+1, num_cases))
         print("Runtime: %s" % runtime.text)
-        return
+        break
       else:
         accepted = soup.find_all("span", class_=re.compile("accepted"))
         if len(accepted) > 47:
@@ -474,6 +492,12 @@ def check_submission_status(submission_id):
           print("Test Cases: " + ("+" * len(accepted)), end='\r')
         time.sleep(0.5)
         i += 1
+    dt = str(datetime.now()).split(".")[0]
+    user_conf["history"].insert(0, dt + "\t" + submission_file)
+    while len(user_conf["history"]) > user_conf["history_size"]:
+      user_conf["history"].pop()
+    modified = True
+
 
 def submit(cookies, problem, lang, files, mainclass=""):
   data = {
@@ -586,29 +610,178 @@ def parse_config(config):
     sys.exit(0)
   return (username, token)
 
+
+def get_stats():
+  if len(user_conf["solved"]) == 0:
+    print("You haven't solved any problems yet!")
+    return
+  solved = list(user_conf["solved"].keys())
+
+  problem_ids = []
+  for problem in solved:
+    problem_id = problem.split(".")[0]
+    problem_ids.append(problem_id)
+
+  pool = mp.Pool(processes=4)
+  ratings = pool.map(get_numeric_rating, problem_ids)
+  pr = (None, 0)
+  avg = sum(ratings) / len(solved)
+
+  cpp_num = 0
+  cpp_denom = 0
+  cpp_pr = (None, 0)
+  cpp_avg = 0
+  java_num = 0
+  java_denom = 0
+  java_pr = (None, 0)
+  java_avg = 0
+  py_num = 0
+  py_denom = 0
+  py_pr = (None, 0)
+  py_avg = 0
+  for i, problem in enumerate(solved):
+    extension = problem.split(".")[-1]
+    if extension == "cpp":
+      cpp_num += ratings[i]
+      cpp_denom += 1
+      if ratings[i] > cpp_pr[1]:
+        cpp_pr = (problem_ids[i], ratings[i])
+      if ratings[i] > pr[1]:
+        pr = (problem_ids[i], ratings[i])
+    elif extension == "java":
+      java_num += ratings[i]
+      java_denom += 1
+      if ratings[i] > java_pr[1]:
+        java_pr = (problem_ids[i], ratings[i])
+      if ratings[i] > pr[1]:
+        pr = (problem_ids[i], ratings[i])
+    elif extension == "py":
+      py_num += ratings[i]
+      py_denom += 1
+      if ratings[i] > py_pr[1]:
+        py_pr = (problem_ids[i], ratings[i])
+      if ratings[i] > pr[1]:
+        pr = (problem_ids[i], ratings[i])
+  if cpp_denom != 0:
+    cpp_avg = cpp_num / cpp_denom
+  if java_denom != 0:
+    java_avg = java_num / java_denom
+  if py_denom != 0:
+    py_avg = py_num / py_denom
+
+  print()
+  print("|  LANGUAGE  |   SOLVED   | AVG RATING |               PR               |")
+  print("-------------------------------------------------------------------------")
+  print("| C++        | %10i | %10.2f | %-26s %3.1f |" % (cpp_denom, cpp_avg, cpp_pr[0], cpp_pr[1]))
+  print("| Java       | %10i | %10.2f | %-26s %3.1f |" % (java_denom, java_avg, java_pr[0], java_pr[1]))
+  print("| Python     | %10i | %10.2f | %-26s %3.1f |" % (py_denom, py_avg, py_pr[0], py_pr[1]))
+  print("-------------------------------------------------------------------------")
+  print("| TOTAL      | %10i | %10.2f | %-26s %3.1f |" % (len(solved), avg, pr[0], pr[1]))
+
+
+def get_numeric_rating(problem_id):
+  print("Getting rating for", problem_id + "...")
+  return float(get_problem_rating(problem_id))
+
+
+def get_history():
+  if len(user_conf["history"]) == 0:
+    print("Your submission history is empty")
+    return
+  for submission in user_conf["history"]:
+    print(submission)
+
+
+def set_history_size(size):
+  global modified
+  if os.geteuid() != 0:
+    print("NOTE: Requires root access to update config file")
+    os.execvp("sudo", ["sudo", "python3"] + sys.argv)
+    return
+  print("NOTE:")
+  print("  - setting the history size is destructive")
+  print("  - the history will immediately shrink to the given size")
+  print("  - setting the history size to 0 effectively clears your history")
+  print()
+  ans = input("Do you wish to continue? (Y/N): ")
+  if ans.lower() not in {"y", "yes"}:
+    return
+  user_conf["history_size"] = size
+  while len(user_conf["history"]) > size:
+    user_conf["history"].pop()
+  modified = True
+
+
+def get_history_size():
+  if "history_size" in user_conf:
+    return user_conf["history_size"]
+  print("Tracking submission history requires that the root kattis directory is set with 'katti --set_root'")
+  print("Aborting...")
+
+
+def handle_history_size(size):
+  arg_size = None
+  try:
+    arg_size = int(size)
+    if arg_size < -1:
+      raise ValueError
+  except ValueError:
+    print("Size must be a positive integer value or -1")
+    print("Aborting...")
+    sys.exit(0)
+  if arg_size is not None:
+    if arg_size == -1:
+      get_history_size()
+    else:
+      set_history_size(arg_size)
+
+
 def usage_msg():
-  return '''\
-katti [-g <problem-id>] [-r] [-p] [-h] [-v]
-'''
+  return "katti [-g <problem-id>] [-r] [-p] [-h] [-v]"
+
 
 def main():
-  global verbose
+  global verbose, user_conf
   # add command line args
   arg_parser = argparse.ArgumentParser(usage=usage_msg())
   arg_parser.add_argument("-g", "--get", metavar="<problem-id>", help="get a kattis problem by its problem id")
   arg_parser.add_argument("-r", "--run", help="run the test cases for a given problem", action="store_true")
   arg_parser.add_argument("-p", "--post", help="submit a kattis problem", action="store_true")
   arg_parser.add_argument("-v", "--verbose", help="receive verbose outputs", action="store_true")
+  arg_parser.add_argument("--stats", help="get kattis stats if possible", action="store_true")
+  arg_parser.add_argument("--history", help="see your 50 most recent kattis submissions", action="store_true")
+  arg_parser.add_argument("--history_size", metavar="<size>", help="set history size with a number and query history size with ?")
   args = arg_parser.parse_args()
 
   verbose = args.verbose
 
+  if os.path.exists("/etc/katti.json"):
+    user_conf = json.load(open("/etc/katti.json", "r"))
+  else:
+    user_conf = {
+      "solved": dict(),
+      "history": [],
+      "history_size": DEFAULT_HIST_SIZE
+    }
+
   if args.get:
     get(args.get)
-  if args.run:
+  elif args.run:
     run()
-  if args.post:
+  elif args.post:
     post()
+  elif args.stats:
+    get_stats()
+  elif args.history:
+    get_history()
+  elif args.history_size:
+    handle_history_size(args.history_size)
+  else:
+    print("usage:", usage_msg())
+
+  if modified:
+    write_string = "import os\nimport json\nwith open('/etc/katti.json', 'w') as f:\n\tf.write(json.dumps(%s))" % str(user_conf)
+    os.execvp("sudo", ["sudo", "python3", "-c", write_string])
 
 if __name__ == "__main__":
   main()
