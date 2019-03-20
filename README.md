@@ -31,7 +31,8 @@ $ mv .kattisrc $HOME
 ```
 **4. Create a simple executable shell script which your OS can find in your $PATH:**
 ```
-$ echo 'python3 /usr/local/opt/katti.py "$@"' > /usr/local/bin/katti; chmod +x /usr/local/bin/katti 
+$ echo 'python3 /usr/local/opt/katti.py "$@"' > /usr/local/bin/katti 
+$ chmod +x /usr/local/bin/katti 
 ```
 **5. Source your rc file:**
 ##### Zsh or Oh-My-Zsh
@@ -43,7 +44,10 @@ $ source .zshrc
 $ source .bashrc
 ```
 
-## Oh-My-Zsh Completions
+Please note that katti writes a small json config file to /usr/local/etc called "katti.json."
+This is normal behavior.
+
+## Zsh or Oh-My-Zsh Completions
 
 If you would like zsh or oh-my-zsh to complete katti's options for you, follow these steps.
 Otherwise it is safe to discard the "_katti" file.
