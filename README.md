@@ -36,7 +36,7 @@ in `/usr/local/etc/katti`
 ## Zsh or Oh-My-Zsh Completions
 
 If you would like zsh or oh-my-zsh to complete katti's options for you, replace step three with the command below.
-Otherwise it is safe to discard the "_katti" file.
+Otherwise it is safe to discard the `_katti` file.
 
 ```
 $ python3 installer.py --zsh
