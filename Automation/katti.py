@@ -476,19 +476,24 @@ def check_submission_status(submission_file, submission_id):
         accepted = soup.find_all("span", class_=re.compile("accepted"))
         reason = soup.find("span", class_="rejected")
         cases = soup.find_all("span", title=re.compile("Test case"))
-        num_cases = cases[0]["title"]
-        num_cases = re.findall("[0-9]+/[0-9]+", num_cases)
-        num_cases = num_cases[0].split("/")[-1]
-        if len(accepted) > 46:
-          print("Test Cases: "
-                + ("+" * 44)
-                + "..."
-          )
-        else:
-          print("Test Cases: " + ("+" * len(accepted)) + "-")
+        num_cases = 0
+        if cases:
+          num_cases = cases[0]["title"]
+          num_cases = re.findall("[0-9]+/[0-9]+", num_cases)
+          num_cases = num_cases[0].split("/")[-1]
+          if len(accepted) > 46:
+            print("Test Cases: "
+                  + ("+" * 44)
+                  + "..."
+            )
+          else:
+            print("Test Cases: " + ("+" * len(accepted)) + "-")
         print("FAILED")
         print("Reason:", reason.text)
-        print("Failed Test Case: %i/%s" % (len(accepted)+1, num_cases))
+        if num_cases == 0:
+          print("Failed Test Case: N/A")
+        else:
+          print("Failed Test Case: %i" % (len(accepted)+1, num_cases))
         print("Runtime: %s" % runtime.text)
         break
       else:
