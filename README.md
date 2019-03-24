@@ -52,25 +52,23 @@ This is normal behavior.
 If you would like zsh or oh-my-zsh to complete katti's options for you, follow these steps.
 Otherwise it is safe to discard the "_katti" file.
 
-**1. Locate or create one of the following directories:**
-##### Zsh
+**1. Locate or create the following directory:**
 ```
-$ mkdir -v /usr/local/share/zsh/functions
+$ mkdir -v $HOME/.zsh-completions
 ```
-##### Oh-My-Zsh
+**2. Make sure that the directory in step 1 is in your $FPATH:**
 ```
-$ mkdir -v $HOME/.oh-my-zsh/completions
-```
-**2. Make sure that one of the directories in step 1 is in your $FPATH:**
-```
-$ print -rl -- $FPATH
+$ print -rl -- $fpath
 ```
 **3. If not, add this to your .zshrc file:**
 ```
-fpath=($fpath <your_directory_here>)
+fpath=($HOME/.zsh-completions $fpath)
 ```
 **4. Move the "_katti" compdef file into the directory from step 1 with:**
 ```
-$ mv _katti <your_directory_here>
+$ mv _katti $HOME/.zsh-completions
 ```
 **5. Launch a new terminal session**
+```
+$ exec zsh
+```
