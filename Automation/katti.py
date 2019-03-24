@@ -9,6 +9,12 @@ import re
 import sys
 import time
 
+# for customization of arg parser
+class Parser(argparse.ArgumentParser):
+  def _check_value(self, action, value):
+    if action.choices is not None and value not in action.choices:
+      raise argparse.ArgumentError(action, "invalid option")
+
 # check python version
 if sys.version_info[0] < 3:
   print("Python 3 required")
@@ -755,9 +761,20 @@ def usage_msg():
 
 def main():
   global verbose, user_conf
+  if os.path.exists("/usr/local/etc/katti/problem_ids.json"):
+    problem_ids = json.load(open("/usr/local/etc/katti/problem_ids.json"))
+  else:
+    problem_ids = update_problem_ids()
   # add command line args
-  arg_parser = argparse.ArgumentParser(usage=usage_msg())
-  arg_parser.add_argument("-g", "--get", metavar="<problem-id>", help="get a kattis problem by its problem id")
+  arg_parser = Parser(usage=usage_msg())
+  arg_parser.add_argument(
+    "-g",
+    "--get",
+    metavar="<problem-id>",
+    help="get a kattis problem by its problem id",
+    type=str,
+    choices=problem_ids
+  )
   arg_parser.add_argument("-r", "--run", help="run the test cases for a given problem", action="store_true")
   arg_parser.add_argument("-p", "--post", help="submit a kattis problem", action="store_true")
   arg_parser.add_argument("-v", "--verbose", help="receive verbose outputs", action="store_true")
@@ -768,8 +785,8 @@ def main():
 
   verbose = args.verbose
 
-  if os.path.exists("/usr/local/etc/katti.json"):
-    user_conf = json.load(open("/usr/local/etc/katti.json", "r"))
+  if os.path.exists("/usr/local/etc/katti/config.json"):
+    user_conf = json.load(open("/usr/local/etc/katti/config.json", "r"))
   else:
     user_conf = {
       "solved": [],
@@ -793,7 +810,7 @@ def main():
     print("usage:", usage_msg())
 
   if modified:
-    with open("/usr/local/etc/katti.json", "w") as f:
+    with open("/usr/local/etc/katti/config.json", "w") as f:
       f.write(json.dumps(user_conf))
       f.close()
 
