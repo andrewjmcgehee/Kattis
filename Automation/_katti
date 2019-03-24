@@ -22,6 +22,7 @@ case "$state" in
       "--verbose:set verbose"
       "-h:show help"
       "--help:show help"
+      "--random:get a random problem with a given rating"
       "--stats:display solution stats"
       "--history:display submission history"
       "--history_size:set or query submission history size"

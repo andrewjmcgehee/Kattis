@@ -5,6 +5,7 @@ from datetime import datetime
 import json
 import multiprocessing as mp
 import os
+import random
 import re
 import sys
 import time
@@ -755,6 +756,59 @@ def handle_history_size(size):
       set_history_size(arg_size)
 
 
+def get_random(rating):
+  global modified
+  try:
+    rating = round(float(rating), 1)
+  except:
+    print("Rating must be a valid floating point number")
+    print("Aborting...")
+    sys.exit(0)
+  if rating < 1 or rating > 10:
+    print("Invalid rating")
+    print("Aborting...")
+    sys.exit(0)
+
+  if os.path.exists("/usr/local/etc/katti/problem_ids.json"):
+    ids = json.load(open("/usr/local/etc/katti/problem_ids.json"))
+  else:
+    print("Unable to locate problem ids JSON in /usr/local/etc/katti")
+    print("Aborting...")
+    sys.exit(0)
+
+  prev_update = datetime.strptime(user_conf["ids_last_updated"], "%Y-%m-%d %H:%M:%S.%f")
+  td = datetime.now() - prev_update
+  hours = td.seconds // 3600
+  if hours >= 24:
+    user_conf["ids_last_updated"] = str(datetime.now())
+    ordered_keys = list(ids.keys())
+    pool = mp.Pool(processes=128)
+    print("Getting up-to-date problem ratings...")
+    for i, val in enumerate(pool.imap(get_numeric_rating, ordered_keys)):
+      print("\rStatus: [" + "%-40s" % ("█" * int(40 * i / len(ids))) + "] %.1f%%" % (100 * i / len(ids)), end="")
+      ids[ordered_keys[i]] = val
+    print("\rStatus: [%-40s" % ("█" * 40) + "] 100.0%")
+    pool.close()
+    pool.join()
+    with open("/usr/local/etc/katti/problem_ids.json", "w") as f:
+      f.write(json.dumps(ids))
+      f.close()
+    modified = True
+
+  choices = set()
+  solved = set([i.split(".")[0] for i in user_conf["solved"]])
+  for problem, val in ids.items():
+    if val == rating:
+      choices.add(problem)
+  choices -= solved
+  if choices:
+    pick = random.choice(list(choices))
+    print("Getting %s..." % pick)
+    get(pick)
+    return
+  print("It appears you have solve all problems rated at %.1f" % rating)
+
+
 def usage_msg():
   return "katti [-g <problem-id>] [-r] [-p] [-h] [-v]"
 
@@ -778,6 +832,7 @@ def main():
   arg_parser.add_argument("-r", "--run", help="run the test cases for a given problem", action="store_true")
   arg_parser.add_argument("-p", "--post", help="submit a kattis problem", action="store_true")
   arg_parser.add_argument("-v", "--verbose", help="receive verbose outputs", action="store_true")
+  arg_parser.add_argument("--random", help="get a random kattis problem with a given rating")
   arg_parser.add_argument("--stats", help="get kattis stats if possible", action="store_true")
   arg_parser.add_argument("--history", help="see your 50 most recent kattis submissions", action="store_true")
   arg_parser.add_argument("--history_size", metavar="<size>", help="set history size with a number and query history size with -1")
@@ -791,11 +846,14 @@ def main():
     user_conf = {
       "solved": [],
       "history": [],
-      "history_size": DEFAULT_HIST_SIZE
+      "history_size": DEFAULT_HIST_SIZE,
+      "ids_last_updated": str(datetime.now())
     }
 
   if args.get:
     get(args.get)
+  elif args.random:
+    get_random(args.random)
   elif args.run:
     run()
   elif args.post:
