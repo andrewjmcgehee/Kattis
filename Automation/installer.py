@@ -1,7 +1,7 @@
 import argparse
 import os
 
-parser = argparse.Parser()
+parser = argparse.ArgumentParser()
 parser.add_argument("--zsh", help="install zsh completions", action="store_true")
 args = parser.parse_args()
 
