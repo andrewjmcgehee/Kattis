@@ -26,6 +26,7 @@ case "$state" in
       "--stats:display solution stats"
       "--history:display submission history"
       "--history_size:set or query submission history size"
+      "--update_period:set how frequently katti updates problem ratings in hours"
     )
 
     _describe -t commands "command" commands && ret=0
