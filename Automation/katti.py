@@ -71,10 +71,14 @@ MAX_SUBMISSION_CHECKS = 60
 # default size of submission history
 DEFAULT_HIST_SIZE = 100
 
-# user config file
+# user config files
 user_conf = None
+problems_conf = None
+USER_CONF_PATH = "/usr/local/etc/katti/config.json"
+PROBLEMS_CONF_PATH = "/usr/local/etc/katti/problem_ids.json"
+ratings_update_period = None
 
-# user conf modified
+# user conf or problems conf modified
 modified = False
 
 """
@@ -634,64 +638,48 @@ def get_stats():
     return
   solved = user_conf["solved"]
 
-  problem_ids = []
-  for problem in solved:
-    problem_id = problem.split(".")[0]
-    problem_ids.append(problem_id)
+  prev_update = datetime.strptime(user_conf["ids_last_updated"], "%Y-%m-%d %H:%M:%S.%f")
+  td = datetime.now() - prev_update
+  # 3600 seconds in hour - no hours field
+  hours = td.seconds // 3600
+  if hours >= ratings_update_period:
+    get_updated_ratings()
 
-  ratings =[]
-  pool = mp.Pool(processes=128)
-  print("Getting updated stats...")
-  for i, rating in enumerate(pool.imap(get_numeric_rating, problem_ids)):
-    print("\rStatus: [" + "%-40s" % ("█" * int(40 * i / len(solved))) + "] %.1f%%" % (100 * i / len(solved)), end="")
-    ratings.append(rating)
-  print("\rStatus: [%-40s" % ("█" * 40) + "] 100.0%")
-  pool.close()
-  pool.join()
-  pr = (None, 0)
-  avg = sum(ratings) / len(solved)
+  stats = {
+    "cpp": {
+      "freq": 0,
+      "pr": (None, 0),
+      "ratings": []
+    },
+    "java": {
+      "freq": 0,
+      "pr": (None, 0),
+      "ratings": []
+    },
+    "py": {
+      "freq": 0,
+      "pr": (None, 0),
+      "ratings": []
+    }
+  }
+  for prob in solved:
+    problem_id, ext = prob.split(".")
+    if ext not in stats:
+      continue
+    stats[ext]["freq"] += 1
+    stats[ext]["ratings"].append(problems_conf[problem_id])
+    if problems_conf[problem_id] > stats[ext]["pr"][1]:
+      stats[ext]["pr"] = (problem_id, problems_conf[problem_id])
 
-  cpp_num = 0
-  cpp_denom = 0
-  cpp_pr = (None, 0)
-  cpp_avg = 0
-  java_num = 0
-  java_denom = 0
-  java_pr = (None, 0)
-  java_avg = 0
-  py_num = 0
-  py_denom = 0
-  py_pr = (None, 0)
-  py_avg = 0
-  for i, problem in enumerate(solved):
-    extension = problem.split(".")[-1]
-    if extension == "cpp":
-      cpp_num += ratings[i]
-      cpp_denom += 1
-      if ratings[i] > cpp_pr[1]:
-        cpp_pr = (problem_ids[i], ratings[i])
-      if ratings[i] > pr[1]:
-        pr = (problem_ids[i], ratings[i])
-    elif extension == "java":
-      java_num += ratings[i]
-      java_denom += 1
-      if ratings[i] > java_pr[1]:
-        java_pr = (problem_ids[i], ratings[i])
-      if ratings[i] > pr[1]:
-        pr = (problem_ids[i], ratings[i])
-    elif extension == "py":
-      py_num += ratings[i]
-      py_denom += 1
-      if ratings[i] > py_pr[1]:
-        py_pr = (problem_ids[i], ratings[i])
-      if ratings[i] > pr[1]:
-        pr = (problem_ids[i], ratings[i])
-  if cpp_denom != 0:
-    cpp_avg = cpp_num / cpp_denom
-  if java_denom != 0:
-    java_avg = java_num / java_denom
-  if py_denom != 0:
-    py_avg = py_num / py_denom
+  cpp_num, cpp_denom = sum(stats["cpp"]["ratings"]), len(stats["cpp"]["ratings"])
+  java_num, java_denom = sum(stats["java"]["ratings"]), len(stats["java"]["ratings"])
+  py_num, py_denom = sum(stats["py"]["ratings"]), len(stats["py"]["ratings"])
+  cpp_avg, cpp_pr = cpp_num / cpp_denom, stats["cpp"]["pr"]
+  java_avg, java_pr = java_num / java_denom, stats["java"]["pr"]
+  py_avg, py_pr = py_num / py_denom, stats["py"]["pr"]
+
+  total_num, total_denom = (cpp_num + java_num + py_num), (cpp_denom + java_denom + py_denom)
+  avg, pr = total_num / total_denom, max(cpp_pr, java_pr, py_pr, key=lambda x: x[1])
 
   print()
   print("|  LANGUAGE  |   SOLVED   | AVG RATING |               PR               |")
@@ -700,11 +688,26 @@ def get_stats():
   print("| Java       | %10i | %10.2f | %-26s %3.1f |" % (java_denom, java_avg, java_pr[0], java_pr[1]))
   print("| Python     | %10i | %10.2f | %-26s %3.1f |" % (py_denom, py_avg, py_pr[0], py_pr[1]))
   print("-------------------------------------------------------------------------")
-  print("| TOTAL      | %10i | %10.2f | %-26s %3.1f |" % (len(solved), avg, pr[0], pr[1]))
+  print("| TOTAL      | %10i | %10.2f | %-26s %3.1f |" % (total_denom, avg, pr[0], pr[1]))
 
 
 def get_numeric_rating(problem_id):
   return float(get_problem_rating(problem_id))
+
+
+def get_updated_ratings():
+  global modified
+  user_conf["ids_last_updated"] = str(datetime.now())
+  ordered_keys = list(problems_conf.keys())
+  pool = mp.Pool(processes=128)
+  print("Getting up-to-date problem ratings...")
+  for i, val in enumerate(pool.imap(get_numeric_rating, ordered_keys)):
+    print("\rStatus: [" + "%-40s" % ("█" * int(40 * i / len(ordered_keys))) + "] %.1f%%" % (100 * i / len(ordered_keys)), end="")
+    problems_conf[ordered_keys[i]] = val
+  print("\rStatus: [%-40s" % ("█" * 40) + "] 100.0%")
+  pool.close()
+  pool.join()
+  modified = True
 
 
 def get_history():
@@ -763,42 +766,22 @@ def handle_history_size(size):
 
 def get_random(rating):
   global modified
+  invalid = False
   try:
-    rating = round(float(rating), 1)
+    rating = int(rating)
   except:
-    print("Rating must be a valid floating point number")
-    print("Aborting...")
-    sys.exit(0)
-  if rating < 1 or rating > 10:
-    print("Invalid rating")
-    print("Aborting...")
-    sys.exit(0)
-
-  if os.path.exists("/usr/local/etc/katti/problem_ids.json"):
-    ids = json.load(open("/usr/local/etc/katti/problem_ids.json"))
-  else:
-    print("Unable to locate problem ids JSON in /usr/local/etc/katti")
+    invalid = True
+  if rating < 1 or rating >= 10 or invalid:
+    print("Invalid rating. Rating must be a valid integer between 1 and 10")
     print("Aborting...")
     sys.exit(0)
 
   prev_update = datetime.strptime(user_conf["ids_last_updated"], "%Y-%m-%d %H:%M:%S.%f")
   td = datetime.now() - prev_update
+  # 3600 seconds in hour - no hours field
   hours = td.seconds // 3600
-  if hours >= 24:
-    user_conf["ids_last_updated"] = str(datetime.now())
-    ordered_keys = list(ids.keys())
-    pool = mp.Pool(processes=128)
-    print("Getting up-to-date problem ratings...")
-    for i, val in enumerate(pool.imap(get_numeric_rating, ordered_keys)):
-      print("\rStatus: [" + "%-40s" % ("█" * int(40 * i / len(ids))) + "] %.1f%%" % (100 * i / len(ids)), end="")
-      ids[ordered_keys[i]] = val
-    print("\rStatus: [%-40s" % ("█" * 40) + "] 100.0%")
-    pool.close()
-    pool.join()
-    with open("/usr/local/etc/katti/problem_ids.json", "w") as f:
-      f.write(json.dumps(ids))
-      f.close()
-    modified = True
+  if hours >= ratings_update_period:
+    get_updated_ratings()
 
   choices = set()
   solved = set([i.split(".")[0] for i in user_conf["solved"]])
@@ -811,19 +794,49 @@ def get_random(rating):
     print("Getting %s..." % pick)
     get(pick)
     return
-  print("It appears you have solve all problems rated at %.1f" % rating)
+  print("It appears you have solved all problems rated %.1f - %.1f" % (rating, rating + 0.9))
 
+def set_update_period(period):
+  global user_conf, modified
+  invalid = False
+  try:
+    period = int(period)
+  except:
+    invalid = True
+  # max is one week
+  if period < 1 or period > 7 * 24 or invalid:
+    print("Invalid period. Must be a valid integer > 0 and <= 168 (one week)")
+    print("Aborting...")
+    sys.exit(0)
+  user_conf["ratings_update_period"] = period
+  modified = True
 
 def usage_msg():
   return "katti [-g <problem-id>] [-r] [-p] [-h] [-v]"
 
 
 def main():
-  global verbose, user_conf
-  if os.path.exists("/usr/local/etc/katti/problem_ids.json"):
-    problem_ids = json.load(open("/usr/local/etc/katti/problem_ids.json"))
+  global verbose, user_conf, problems_conf, ratings_update_period
+  # load conf files
+  if os.path.exists(USER_CONF_PATH):
+    user_conf = json.load(open(USER_CONF_PATH))
   else:
-    problem_ids = update_problem_ids()
+    user_conf = {
+      "solved": [],
+      "history": [],
+      "history_size": DEFAULT_HIST_SIZE,
+      "ids_last_updated": str(datetime.now()),
+      "ratings_update_period": 72
+    }
+  if os.path.exists(PROBLEMS_CONF_PATH):
+    problems_conf = json.load(open(PROBLEMS_CONF_PATH))
+  else:
+    print("Your problem ids JSON file appears to be corrupted")
+    print("Please download and install a new one at https://github.com/andrewjmcgehee/kattis")
+    print("Aborting...")
+    sys.exit(0)
+  ratings_update_period = user_conf["ratings_update_period"]
+
   # add command line args
   arg_parser = Parser(usage=usage_msg())
   arg_parser.add_argument(
@@ -832,7 +845,7 @@ def main():
     metavar="<problem-id>",
     help="get a kattis problem by its problem id",
     type=str,
-    choices=problem_ids
+    choices=list(problems_conf.keys())
   )
   arg_parser.add_argument("-r", "--run", help="run the test cases for a given problem", action="store_true")
   arg_parser.add_argument("-p", "--post", help="submit a kattis problem", action="store_true")
@@ -841,19 +854,10 @@ def main():
   arg_parser.add_argument("--stats", help="get kattis stats if possible", action="store_true")
   arg_parser.add_argument("--history", help="see your 50 most recent kattis submissions", action="store_true")
   arg_parser.add_argument("--history_size", metavar="<size>", help="set history size with a number and query history size with -1")
+  arg_parser.add_argument("--update_period", metavar="<hours>", help="set how frequently katti updates problem ratings in hours")
   args = arg_parser.parse_args()
 
   verbose = args.verbose
-
-  if os.path.exists("/usr/local/etc/katti/config.json"):
-    user_conf = json.load(open("/usr/local/etc/katti/config.json", "r"))
-  else:
-    user_conf = {
-      "solved": [],
-      "history": [],
-      "history_size": DEFAULT_HIST_SIZE,
-      "ids_last_updated": str(datetime.now())
-    }
 
   if args.get:
     get(args.get)
@@ -869,12 +873,17 @@ def main():
     get_history()
   elif args.history_size:
     handle_history_size(args.history_size)
+  elif args.update_period:
+    set_update_period(args.update_period)
   else:
     print("usage:", usage_msg())
 
   if modified:
-    with open("/usr/local/etc/katti/config.json", "w") as f:
+    with open(USER_CONF_PATH, mode="w") as f:
       f.write(json.dumps(user_conf))
+      f.close()
+    with open(PROBLEMS_CONF_PATH, mode="w") as f:
+      f.write(json.dumps(problems_conf))
       f.close()
 
 if __name__ == "__main__":
