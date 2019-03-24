@@ -13,62 +13,31 @@ NOTE: Ratings listed in solutions are tentative. They constantly change and upda
 
 # Installation of Katti Automation (Mac / Linux)
 
-To install the Katti command line tool, simply download the katti.py file  and follow these steps.
+To install the Katti command line tool, simply clone or download this repo and do the following:
 
 NOTE: Python 3 is required and "python3" must be linked.
 
-**1. Move the katti.py file into your local opt directory with:**
-```
-$ mv katti.py /usr/local/opt
-```
-**2. Login to Kattis and download or copy and paste your personal .kattisrc file from:**
+**1. Login to Kattis and download or copy and paste your personal .kattisrc file from:**
 ```
 https://icpc.kattis.com/download/kattisrc
 ```
-**3. Move your .kattisrc to your home directory:**
+**2. Move your .kattisrc to your home directory:**
 ```
 $ mv .kattisrc $HOME
 ```
-**4. Create a simple executable shell script which your OS can find in your $PATH:**
+**3. Run the katti installer script:**
 ```
-$ echo 'python3 /usr/local/opt/katti.py "$@"' > /usr/local/bin/katti 
-$ chmod +x /usr/local/bin/katti 
-```
-**5. Source your rc file:**
-##### Zsh or Oh-My-Zsh
-```
-$ source .zshrc
-```
-##### Bash
-```
-$ source .bashrc
+$ python3 installer.py
 ```
 
-Please note that katti writes a small json config file to /usr/local/etc called "katti.json."
-This is normal behavior.
+Please note that katti is installed to `/usr/local/opt/katti.py`, writes a shell script to `/usr/local/bin/katti`, and stores its config files
+in `/usr/local/etc/katti`
 
 ## Zsh or Oh-My-Zsh Completions
 
-If you would like zsh or oh-my-zsh to complete katti's options for you, follow these steps.
+If you would like zsh or oh-my-zsh to complete katti's options for you, replace step three with the command below.
 Otherwise it is safe to discard the "_katti" file.
 
-**1. Locate or create the following directory:**
 ```
-$ mkdir -v $HOME/.zsh-completions
-```
-**2. Make sure that the directory in step 1 is in your $FPATH:**
-```
-$ print -rl -- $fpath
-```
-**3. If not, add this to your .zshrc file:**
-```
-fpath=($HOME/.zsh-completions $fpath)
-```
-**4. Move the "_katti" compdef file into the directory from step 1 with:**
-```
-$ mv _katti $HOME/.zsh-completions
-```
-**5. Launch a new terminal session**
-```
-$ exec zsh
+$ python3 installer.py --zsh
 ```
