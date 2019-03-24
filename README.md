@@ -13,7 +13,7 @@ NOTE: Ratings listed in solutions are tentative. They constantly change and upda
 
 # Installation of Katti Automation (Mac / Linux)
 
-To install the Katti command line tool, simply clone or download this repo and do the following:
+To install the Katti command line tool, simply clone or download this repo's `Automation` directory and do the following:
 
 NOTE: Python 3 is required and "python3" must be linked.
 
