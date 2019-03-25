@@ -3,6 +3,7 @@ from bisect import bisect
 import configparser
 from datetime import datetime
 import json
+import latex_to_text
 import multiprocessing as mp
 import os
 import random
@@ -64,12 +65,6 @@ _HEADERS = { "User-Agent": "kattis-cli-submit" }
 _LOGIN_URL = "https://open.kattis.com/login"
 _SUBMIT_URL = "https://open.kattis.com/submit"
 _STATUS_URL = "https://open.kattis.com/submissions/"
-
-# translate common latex symbols for problem descriptions
-_LATEX_SYMBOLS = {
-  '\\leq': '<=',
-  '\\geq': '>='
-}
 
 # maximum number of times to check a submissions status
 MAX_SUBMISSION_CHECKS = 60
@@ -179,10 +174,10 @@ def get_problem_description(problem_id):
   body = soup.find("div", {"class": "problembody"})
   body_text = body.find_all(["p", "h2"])
   res = [head.h1] + body_text
-  res = translate_description_latex(res)
+  res = format_description(res)
   return '\n\n'.join(res)
 
-def translate_description_latex(lines):
+def format_description(lines):
   lines[0] = '#### ' + lines[0].text + ' ####'
   for i in range(1, len(lines)):
     line = lines[i]
@@ -191,14 +186,8 @@ def translate_description_latex(lines):
     elif line.text == 'Output':
       lines[i] = '#### Output ####'
     else:
-      line = line.text
-      tags = re.findall("\$\S*?.*?\S*?\$", line)
-      for tag in tags:
-        stripped_tag = "\033[1;31m" + tag[1:-1] + "\033[0m"
-        line = line.replace(tag, stripped_tag)
-      for key in _LATEX_SYMBOLS:
-        line = line.replace(key, _LATEX_SYMBOLS[key])
-      lines[i] = line
+      line = latex_to_text.translate(line.text)
+      lines[i] = ' '.join(line.split())
   return lines
 
 def show_description(option):
