@@ -6,6 +6,7 @@ parser.add_argument("--zsh", help="install zsh completions", action="store_true"
 args = parser.parse_args()
 
 os.system("cp -v katti.py /usr/local/opt")
+os.system("cp -v latex_to_text.py /usr/local/opt")
 os.system("echo 'python3 /usr/local/opt/katti.py \"$@\"' > /usr/local/bin/katti")
 os.system("chmod +x /usr/local/bin/katti")
 os.system("mkdir -v /usr/local/etc/katti")
