@@ -859,15 +859,15 @@ def get_random(rating):
     sys.exit(0)
 
   prev_update = datetime.strptime(user_conf["ids_last_updated"], "%Y-%m-%d %H:%M:%S.%f")
-  td = datetime.now() - prev_update
+  current = datetime.now()
   # 3600 seconds in hour - no hours field
-  hours = td.seconds // 3600
+  hours = (current - prev_update).total_seconds() / 3600
   if hours >= ratings_update_period:
     get_updated_ratings()
 
   choices = set()
   solved = set([i.split(".")[0] for i in user_conf["solved"]])
-  for problem, val in ids.items():
+  for problem, val in problems_conf.items():
     if val == rating:
       choices.add(problem)
   choices -= solved
