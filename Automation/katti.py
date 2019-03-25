@@ -65,6 +65,12 @@ _LOGIN_URL = "https://open.kattis.com/login"
 _SUBMIT_URL = "https://open.kattis.com/submit"
 _STATUS_URL = "https://open.kattis.com/submissions/"
 
+# translate common latex symbols for problem descriptions
+_LATEX_SYMBOLS = {
+  '\\leq': '<=',
+  '\\geq': '>='
+}
+
 # maximum number of times to check a submissions status
 MAX_SUBMISSION_CHECKS = 60
 
@@ -95,6 +101,9 @@ def get(problem_id):
       extension = _suported_langs[language]
       break
     print("Language \"%s\" not suported..." % language)
+
+  # make GET call for problem description
+  description = get_problem_description(problem_id)
 
   # make GET call for problem rating
   rating = get_problem_rating(problem_id)
@@ -127,9 +136,13 @@ def get(problem_id):
     print()
     os.system("rm -iv samples.zip")
     print()
-    print("Writing boilerplate file...")
+    print("Writing boilerplate files...")
     os.chdir(problem_id)
     write_boilerplate(problem_id, extension, rating)
+    with open(problem_id + '.description', mode="w") as f:
+      f.write(description)
+      f.close()
+    show_description("full")
     os.chdir("..")
   else:
     os.system("mkdir -p %s" % problem_id)
@@ -137,13 +150,93 @@ def get(problem_id):
     os.system("rm samples.zip")
     os.chdir(problem_id)
     write_boilerplate(problem_id, extension, rating)
+    with open(problem_id + '.description', mode="w") as f:
+      f.write(description)
+      f.close()
+    show_description("full")
     os.chdir("..")
 
 def get_problem_rating(problem_id):
   r = requests.get("https://open.kattis.com/problems/" + problem_id)
+  # bad request
+  if r.status_code != 200:
+    print("URL returned non 200 status")
+    print("Aborting...")
+    sys.exit(0)
   search = re.findall("Difficulty:[ </>a-z]*[0-9]\.[0-9]", r.text)[0]
   rating = search.split('>')[-1]
   return rating
+
+def get_problem_description(problem_id):
+  r = requests.get("https://open.kattis.com/problems/" + problem_id)
+  # bad request
+  if r.status_code != 200:
+    print("URL returned non 200 status")
+    print("Aborting...")
+    sys.exit(0)
+  soup = BeautifulSoup(r.content, "html.parser")
+  head = soup.find("div", {"class": "headline-wrapper"})
+  body = soup.find("div", {"class": "problembody"})
+  body_text = body.find_all(["p", "h2"])
+  res = [head.h1] + body_text
+  res = translate_description_latex(res)
+  return '\n\n'.join(res)
+
+def translate_description_latex(lines):
+  lines[0] = '#### ' + lines[0].text + ' ####'
+  for i in range(1, len(lines)):
+    line = lines[i]
+    if line.text == 'Input':
+      lines[i] = '#### Input ####'
+    elif line.text == 'Output':
+      lines[i] = '#### Output ####'
+    else:
+      line = line.text
+      tags = re.findall("\$\S*?.*?\S*?\$", line)
+      for tag in tags:
+        stripped_tag = "\033[1;31m" + tag[1:-1] + "\033[0m"
+        line = line.replace(tag, stripped_tag)
+      for key in _LATEX_SYMBOLS:
+        line = line.replace(key, _LATEX_SYMBOLS[key])
+      lines[i] = line
+  return lines
+
+def show_description(option):
+  try:
+    problem = os.path.basename(os.getcwd())
+    description = open(problem + ".description", mode="r")
+  except:
+    print("No valid description file found")
+    print("Aborting...")
+    sys.exit(0)
+  if option == "short":
+    for line in description:
+      if line.strip() == "#### Input ####":
+        break
+      print(line, end="")
+  elif option == "full":
+    for line in description:
+      print(line, end="")
+    print("\n")
+  elif option == "input":
+    print(description.readline())
+    start = False
+    for line in description:
+      if line.strip() == "#### Input ####":
+        start = True
+      if line.strip() == "#### Output ####":
+        break
+      if start:
+        print(line, end="")
+  elif option == "output":
+    print(description.readline())
+    start = False
+    for line in description:
+      if line.strip() == "#### Output ####":
+        start = True
+      if start:
+        print(line, end="")
+    print("\n")
 
 """
 Opens and writes basic boilerplate to a file based on file type
@@ -850,6 +943,10 @@ def main():
   arg_parser.add_argument("-r", "--run", help="run the test cases for a given problem", action="store_true")
   arg_parser.add_argument("-p", "--post", help="submit a kattis problem", action="store_true")
   arg_parser.add_argument("-v", "--verbose", help="receive verbose outputs", action="store_true")
+  arg_parser.add_argument("-d", "--short_description", help="display a problem's description only", action="store_true")
+  arg_parser.add_argument("-D", "--full_description", help="display a problem's description, input, and output specs", action="store_true")
+  arg_parser.add_argument("-i", "--input", help="display a problem's input specs", action="store_true")
+  arg_parser.add_argument("-o", "--output", help="display a problem's output specs", action="store_true")
   arg_parser.add_argument("--random", help="get a random kattis problem with a given rating")
   arg_parser.add_argument("--stats", help="get kattis stats if possible", action="store_true")
   arg_parser.add_argument("--history", help="see your 50 most recent kattis submissions", action="store_true")
@@ -867,6 +964,14 @@ def main():
     run()
   elif args.post:
     post()
+  elif args.short_description:
+    show_description("short")
+  elif args.full_description:
+    show_description("full")
+  elif args.input:
+    show_description("input")
+  elif args.output:
+    show_description("output")
   elif args.stats:
     get_stats()
   elif args.history:
