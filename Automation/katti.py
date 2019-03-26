@@ -568,10 +568,7 @@ def check_submission_status(submission_file, submission_id):
           num_cases = re.findall("[0-9]+/[0-9]+", num_cases)
           num_cases = num_cases[0].split("/")[-1]
           if len(accepted) > 46:
-            print("Test Cases: "
-                  + ("+" * 44)
-                  + "..."
-            )
+            print("Test Cases: " + ("+" * 44) + "...")
           else:
             print("Test Cases: " + ("+" * len(accepted)) + "-")
         print("FAILED")
@@ -579,7 +576,7 @@ def check_submission_status(submission_file, submission_id):
         if num_cases == 0:
           print("Failed Test Case: N/A")
         else:
-          print("Failed Test Case: %i" % (len(accepted)+1, num_cases))
+          print("Failed Test Case: %i/%s" % (len(accepted)+1, num_cases))
         print("Runtime: %s" % runtime.text)
         break
       else:
