@@ -11,7 +11,7 @@ import java.io.*;
 
 public class deduplicatingfiles {
   // hash function as described in problem
-  static char getHash(String s) {
+  public static char getHash(String s) {
     char c = (char) 0;
     for (int i = 0; i < s.length(); i++) {
       c ^= s.charAt(i);
@@ -27,18 +27,15 @@ public class deduplicatingfiles {
       if (n == 0) {
         break;
       }
-
       // map to count number of occurences of a string
       HashMap<String, Integer> map = new HashMap<String, Integer>();
       for (int i = 0; i < n; i++) {
         String s = br.readLine();
-
         if (!map.containsKey(s)) {
           map.put(s, 0);
         }
         map.put(s, map.get(s) + 1);
       }
-
       // consider all pair-wise relationships, including identity pairs
       int collisions = 0;
       for (String f1 : map.keySet()) {
