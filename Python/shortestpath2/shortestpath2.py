@@ -16,7 +16,7 @@ def main():
     best = dict()
     for i in range(m):
       u, v, t, P, d = map(int, data.popleft().split())
-      adj[u].add((v, t, P, d))
+      adj[u].append((v, t, P, d))
     q = []
     heapq.heappush(q, (0, s))
     while len(best) < n and q:
