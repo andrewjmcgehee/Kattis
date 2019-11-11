@@ -3,46 +3,34 @@
 # Complexity: O(N^2) for N queens due to checking pair-wise relationhips
 # Memory: O(1) for an 8 by 8 board
 
-def main():
-  # get board
-  board = [input() for x in range(8)]
+expressions = ['4']
 
-  # array of tuples that repesent x, y coords
-  queens = []
-  num_queens = 0
-  for i in range(len(board)):
-    for j in range(len(board[i])):
-      if board[i][j] == '*':
-        queens.append((i, j))
-        num_queens += 1
+for i in range(3):
+  temp = []
+  for e in expressions:
+    temp.append(e + ' * 4')
+    temp.append(e + ' + 4')
+    temp.append(e + ' - 4')
+    temp.append(e + ' / 4')
+  expressions = temp
 
-  valid = True
-  # quick check
-  if num_queens != 8:
-    valid = False
+solutions = dict()
+for e in expressions:
+  tokens = e.split()
+  string = ''
+  for token in tokens:
+    if token == '/':
+      string += '//'
+    else:
+      string += token
+  num = eval(string)
+  solutions[num] = e
 
-  if valid:
-    for i in range(len(queens)):
-      for j in range(i+1, len(queens)):
-        # share the same row
-        if queens[i][0] == queens[j][0]:
-          valid = False
-          break
-        # share the same column
-        if queens[i][1] == queens[j][1]:
-          valid = False
-          break
-        # are diagonal if and only if same distance x and y apart
-        if abs(queens[i][0] - queens[j][0]) == abs(queens[i][1] - queens[j][1]):
-          valid = False
-          break
-      if not valid:
-        break
-
-  if valid:
-    print('valid')
+num_cases = int(input())
+for i in range(num_cases):
+  n = int(input())
+  if n in solutions:
+    s = solutions[n]
+    print(s + ' = ' + str(n))
   else:
-    print('invalid')
-
-if __name__ == '__main__':
-    main()
+    print('no solution')
