@@ -1,5 +1,5 @@
-# pieceofcake2
-# rating: 1.3
+# Rating: ~ 1.3 / 10
+# Link: https://open.kattis.com/problems/pieceofcake2
 
 def main():
   n, h, v = map(int, input().split())
@@ -12,6 +12,5 @@ def main():
       best = max(best, 4*i*j)
   print(best)
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
   main()

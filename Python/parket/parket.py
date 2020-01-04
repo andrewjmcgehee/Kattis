@@ -1,5 +1,5 @@
-# parket
-# 2.6
+# Rating: ~ 2.6 / 10
+# Link: https://open.kattis.com/problems/parket
 
 def main():
   r, b = map(int, input().split())
@@ -12,6 +12,5 @@ def main():
         break
     i += 1
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
   main()
