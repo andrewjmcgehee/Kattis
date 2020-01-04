@@ -1,5 +1,5 @@
-# brokenswords
-# 1.8
+# Rating: ~ 1.8 / 10
+# Link: https://open.kattis.com/problems/brokenswords
 
 def main():
   n = int(input())
@@ -16,5 +16,5 @@ def main():
   lr -= s * 2
   print(s, tb, lr)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
   main()
