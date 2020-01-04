@@ -1,5 +1,5 @@
-# alphabetanimals
-# rating: 3.3
+# Rating: ~ 3.3 / 10
+# Link: https://open.kattis.com/problems/alphabetanimals
 
 from sys import stdin
 from collections import defaultdict
