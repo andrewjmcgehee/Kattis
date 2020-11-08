@@ -3,15 +3,21 @@
 # Complexity: O(N log(N)) due to union find and where N is number of cells in row-major form
 # Memory: O(Rows * Columns) for union find in row-major form
 
+import sys
+sys.setrecursionlimit(10**6)
+
 # light weight union find representation
 def unite(uf, x, y):
-  uf[find(uf, x)] = find(uf, y)
+  xroot = find(uf, x)
+  yroot = find(uf, y)
+  if xroot == yroot:
+    return
+  uf[xroot] = yroot
 
 def find(uf, x):
   if uf[x] == x:
     return x
-  else:
-    uf[x] = find(uf, uf[x])
+  uf[x] = find(uf, uf[x])
   return uf[x]
 
 def main():
